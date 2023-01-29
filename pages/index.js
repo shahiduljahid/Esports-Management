@@ -21,12 +21,13 @@ import styles from '/styles/jss/nextjs-material-kit/pages/landingPage.js'
 import ProductSection from '/pages-sections/LandingPage-Sections/ProductSection.js'
 import TeamSection from '/pages-sections/LandingPage-Sections/TeamSection.js'
 import WorkSection from '/pages-sections/LandingPage-Sections/WorkSection.js'
-import Layout from '../layout/Layout'
+
 import homeStyle from '../components/Header/Header.module.css'
 import logoImage from '../assets/esGroundOnlyLogo.png'
 import preloader from '../assets/preloader.gif'
 
 import Image from 'next/image'
+import Layout from './../Layout/Layout';
 
 const dashboardRoutes = []
 
