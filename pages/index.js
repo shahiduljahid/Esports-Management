@@ -40,9 +40,9 @@ export default function LandingPage(props) {
   const sliderImages = [
     '/img/slider/heroBg1.jpg',
     '/img/slider/heroBg2.jpg',
-    '/img/slider/heroBg3.png',
+    '/img/slider/heroBg3.jpg',
     '/img/slider/heroBg4.jpg',
-    '/img/slider/heroBg5.png',
+    '/img/slider/heroBg5.jpg',
   ]
   const [sliderIndex, setSliderIndex] = useState(0)
   const timer = () => setSliderIndex(sliderIndex + 1)
