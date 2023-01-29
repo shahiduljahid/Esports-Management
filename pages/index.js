@@ -88,6 +88,7 @@ loader();
             responsive
             image={sliderImages[sliderIndex]}
           >
+            
             <div
               style={{ marginTop: '100px', marginBottom: '100px' }}
               className={classes.container}
