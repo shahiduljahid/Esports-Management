@@ -18,13 +18,7 @@ const Layout = ({ children, color, ...rest }) => {
   }, [])
 
   return (
-    <div
-      style={{
-        backgroundImage: `url("../../assets/landing-bckgrd.jpg")`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div>
       <Header
         color={
           router.route !== '/'

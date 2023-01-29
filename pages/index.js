@@ -27,7 +27,7 @@ import logoImage from '../assets/esGroundOnlyLogo.png'
 import preloader from '../assets/preloader.gif'
 
 import Image from 'next/image'
-import Layout from './../Layout/Layout';
+import Layout from './../Layout/Layout'
 
 const dashboardRoutes = []
 
@@ -56,12 +56,12 @@ export default function LandingPage(props) {
     return () => clearInterval(id)
   }, [sliderIndex])
 
-const loader = ()=>{
-  setTimeout(()=>{
-    setLoading(false)
-  },1000)
-}
-loader();
+  const loader = () => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+  }
+  loader()
 
   return (
     <div>
@@ -88,7 +88,6 @@ loader();
             responsive
             image={sliderImages[sliderIndex]}
           >
-            
             <div
               style={{ marginTop: '100px', marginBottom: '100px' }}
               className={classes.container}
@@ -127,7 +126,7 @@ loader();
               </GridContainer>
             </div>
           </Parallax>
-          <div className={homeStyle.backGround}>
+          <div>
             <div className={classNames(classes.main, classes.mainRaised)}>
               <div className={homeStyle.backGround}>
                 {' '}

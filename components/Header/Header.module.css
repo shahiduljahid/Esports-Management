@@ -32,7 +32,7 @@
   margin-bottom: 300px;
 }
 .backGround{
-  background-image: url("../../assets/landing-bckgrd.jpg");
+  background-image: url("/img/landing-bckgrd.jpg");
   background-size:cover;
   background-repeat:no-repeat;
 
