@@ -38,7 +38,7 @@ export default function LandingPage(props) {
   const classes = useStyles()
   const { ...rest } = props
   const sliderImages = [
-    '/img/slider/heroBg1.jpg',
+    '/img/slider/heroBg.jpg',
     '/img/slider/heroBg2.jpg',
     '/img/slider/heroBg3.jpg',
     '/img/slider/heroBg4.jpg',
