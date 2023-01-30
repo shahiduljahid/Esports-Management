@@ -1,43 +1,39 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "next/app";
-import Head from "next/head";
-import Router from "next/router";
-import PageChange from "/components/PageChange/PageChange.js";
-import "/styles/scss/nextjs-material-kit.scss?v=1.2.0";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from 'next/app'
+import Head from 'next/head'
+import Router from 'next/router'
+import PageChange from '/components/PageChange/PageChange.js'
+import '/styles/scss/nextjs-material-kit.scss?v=1.2.0'
+import '/styles/css/app.css'
 
-
-Router.events.on("routeChangeStart", (url) => {
-  document.body.classList.add("body-page-transition");
-  ReactDOM.render(<PageChange />, document.getElementById("page-transition"));
-});
-Router.events.on("routeChangeComplete", () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
-  document.body.classList.remove("body-page-transition");
-});
-Router.events.on("routeChangeError", () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
-  document.body.classList.remove("body-page-transition");
-});
+Router.events.on('routeChangeStart', (url) => {
+  document.body.classList.add('body-page-transition')
+  ReactDOM.render(<PageChange />, document.getElementById('page-transition'))
+})
+Router.events.on('routeChangeComplete', () => {
+  ReactDOM.unmountComponentAtNode(document.getElementById('page-transition'))
+  document.body.classList.remove('body-page-transition')
+})
+Router.events.on('routeChangeError', () => {
+  ReactDOM.unmountComponentAtNode(document.getElementById('page-transition'))
+  document.body.classList.remove('body-page-transition')
+})
 
 export default class MyApp extends App {
- 
   static async getInitialProps({ Component, router, ctx }) {
-    let pageProps = {};
+    let pageProps = {}
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+      pageProps = await Component.getInitialProps(ctx)
     }
-    
 
-    return { pageProps };
-    
+    return { pageProps }
   }
-  
+
   render() {
-   
-    const { Component, pageProps } = this.props;
-    const Layout = Component.layout || (({ children }) => <>{children}</>);
+    const { Component, pageProps } = this.props
+    const Layout = Component.layout || (({ children }) => <>{children}</>)
     return (
       <React.Fragment>
         <Head>
@@ -47,12 +43,11 @@ export default class MyApp extends App {
           />
           <title>ESPORTS GROUND </title>
         </Head>
-      
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-     
+
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </React.Fragment>
-    );
+    )
   }
 }

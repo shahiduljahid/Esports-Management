@@ -54,12 +54,12 @@ export default function HeaderLinks(props) {
           dropdownList={[
             <Link href="#">
               <a className={classes.dropdownLink}>
-                Tournament Schedule Management
+                Schedule Management
               </a>
             </Link>,
             <Link href="#">
               <a className={classes.dropdownLink}>
-                Tournament Certificate Management
+                Certificate Management
               </a>
             </Link>,
             <Link href="#">

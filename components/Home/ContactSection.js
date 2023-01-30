@@ -9,14 +9,14 @@ import GridContainer from '/components/Grid/GridContainer.js'
 import GridItem from '/components/Grid/GridItem.js'
 import CustomInput from '/components/CustomInput/CustomInput.js'
 import Button from '/components/CustomButtons/Button.js'
-import homeStyle from '../../components/Header/Header.module.css'
+import homeStyle from '/components/Header/Header.module.css'
 
 import styles from '/styles/jss/nextjs-material-kit/pages/landingPageSections/workStyle.js'
 import { classNames } from 'classnames'
 
 const useStyles = makeStyles(styles)
 
-export default function WorkSection() {
+export default function ContactSection() {
   const classes = useStyles()
   return (
     <div

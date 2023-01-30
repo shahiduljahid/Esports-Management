@@ -76,7 +76,7 @@ export default function Header(props) {
       >
         <img
           style={{ height: 60, marginRight: 5 }}
-          src="/img/favicon.png"
+          src="/img/esGroundOnlyLogo.png"
         ></img>
         <div>
           <h4 className={LogoStyle.logo_title}>ESPORTS GROUND</h4>

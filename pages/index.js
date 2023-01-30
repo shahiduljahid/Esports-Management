@@ -28,6 +28,9 @@ import preloader from '../assets/preloader.gif'
 
 import Image from 'next/image'
 import Layout from './../Layout/Layout'
+import OverViewSection from '../components/Home/OverViewSection'
+import ContactSection from '../components/Home/ContactSection'
+import ScheduleLayoutsection from '../components/Home/ScheduleLayoutsection'
 
 const dashboardRoutes = []
 
@@ -118,10 +121,25 @@ export default function LandingPage(props) {
                   </GridContainer>
 
                   <p data-aos="zoom-in" className={homeStyle.subtitle}>
-                    A esports management system
+                    A esports management Platform
                   </p>
 
                   <br />
+                </GridItem>
+                <GridItem
+                  data-aos="fade-up"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  className={classes.textCenter}
+                >
+                  <Button round color="danger">
+                    GET STARTED
+                  </Button>
                 </GridItem>
               </GridContainer>
             </div>
@@ -131,9 +149,9 @@ export default function LandingPage(props) {
               <div className={homeStyle.backGround}>
                 {' '}
                 <div className={classes.container}>
-                  <ProductSection />
-                  <TeamSection />
-                  <WorkSection />
+                  <OverViewSection />
+                  <ScheduleLayoutsection />
+                  <ContactSection />
                 </div>
               </div>
             </div>
