@@ -23,14 +23,12 @@ import TeamSection from '/pages-sections/LandingPage-Sections/TeamSection.js'
 import WorkSection from '/pages-sections/LandingPage-Sections/WorkSection.js'
 
 import homeStyle from '../components/Header/Header.module.css'
-import logoImage from '../assets/esGroundOnlyLogo.png'
-import preloader from '../assets/preloader.gif'
 
 import Image from 'next/image'
 import Layout from './../Layout/Layout'
 import OverViewSection from '../components/Home/OverViewSection'
 import ContactSection from '../components/Home/ContactSection'
-import ScheduleLayoutsection from '../components/Home/ScheduleLayoutsection'
+import ScheduleLayoutSection from '../components/Home/ScheduleLayoutSection'
 
 const dashboardRoutes = []
 
@@ -80,7 +78,7 @@ export default function LandingPage(props) {
         >
           <div>
             {' '}
-            <Image src={preloader} />
+            <Image src={'/img/assets/preloader.gif'} height={300} width={200} />
           </div>
         </div>
       ) : (
@@ -105,7 +103,7 @@ export default function LandingPage(props) {
                     <GridItem data-aos="fade-right" xs={4}>
                       {' '}
                       <Image
-                        src={logoImage}
+                        src={'/img/assets/esGroundOnlyLogo.png'}
                         alt="logo"
                         width={300}
                         height={300}
@@ -150,7 +148,7 @@ export default function LandingPage(props) {
                 {' '}
                 <div className={classes.container}>
                   <OverViewSection />
-                  <ScheduleLayoutsection />
+                  <ScheduleLayoutSection />
                   <ContactSection />
                 </div>
               </div>

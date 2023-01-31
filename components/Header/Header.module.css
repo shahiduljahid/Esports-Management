@@ -1,7 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/blanka');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,600;1,300;1,400;1,500;1,600&family=Rajdhani:wght@500;600;700&display=swap');
 .makeStyles-underline-106:after {
-  border-color: #7f63ea!important;
+  border-color: #7f63ea !important;
 }
 .heroTitle {
   font-family: 'Blanka', sans-serif;
@@ -45,15 +45,14 @@
   transform: rotate(-90deg);
   position: absolute;
 }
-.rotatedRightText{
+.rotatedRightText {
   font-family: 'Rajdhani', sans-serif;
   top: 87px;
   right: -75px;
   transform: rotate(-90deg);
   position: absolute;
-  
 }
-.rotateLine::before{
+.rotateLine::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -74,10 +73,9 @@
 }
 
 .overViewImage {
-  height: 600px;
-  widtH: 600px;
+  height: 300px;
+  width: 500px;
   position: relative;
- 
 }
 .overViewImage:before {
   content: '';
@@ -93,28 +91,29 @@
   height: 100%;
 }
 .overViewSubImage {
-opacity: 0;
+  opacity: 0;
 
   position: absolute;
   bottom: -64px;
 }
 
 .overViewImage:hover + .overViewSubImage {
-
   opacity: 1;
   -ms-transform: translateY(20px);
-    transform: translateY(20px);
-    -webkit-transition: .5s cubic-bezier(.25,.03,0,1.02);
-    -o-transition: .5s cubic-bezier(.25,.03,0,1.02);
-    transition: .5s cubic-bezier(.25,.03,0,1.02);
-  
+  transform: translateY(20px);
+  -webkit-transition: 0.5s cubic-bezier(0.25, 0.03, 0, 1.02);
+  -o-transition: 0.5s cubic-bezier(0.25, 0.03, 0, 1.02);
+  transition: 0.5s cubic-bezier(0.25, 0.03, 0, 1.02);
 }
 .workTitle {
   font-family: 'Rajdhani', sans-serif;
   font-size: 60px;
   font-weight: 700;
 }
-
+.slideImg{
+height: 450px;
+width:400px;
+}
 
 @media (max-width: 991px) {
   .heroTitle {
@@ -124,6 +123,16 @@ opacity: 0;
     margin-top: 50px;
     margin-bottom: 50px;
   }
+  .rotatedLeftText {
+    left: -48px;
+  }
+  .rotatedRightText {
+    right: -48px;
+  }
+  .slideImg{
+    height: 400px;
+    width:350px;
+    }
 }
 @media (max-width: 767px) {
   .heroTitle {
@@ -132,20 +141,21 @@ opacity: 0;
   .overViewTitle {
     font-size: 40px;
   }
+  .overViewImage {
+    height: 300px;
+    width: 300px;
+  
+  }
   .workTitle {
-   
     font-size: 30px;
-   
   }
   .rotatedLeftText {
     top: 78px;
     left: -51px;
   }
-  .rotatedRightText{
-  
-    top: 78px;
-    right: -75px;
-      
+  .rotatedRightText {
+    top: 100px;
+    right: -51px;
   }
   .subtitle {
     text-align: center;
@@ -157,9 +167,17 @@ opacity: 0;
     margin-top: 10px;
     margin-bottom: 10px;
   }
+  .slideImg{
+    height: 400px;
+    width:350px;
+    }
 }
 @media (max-width: 500px) {
   .heroTitle {
     font-size: 35px;
   }
+  .slideImg{
+    height: 250px;
+    width:200px;
+    }
 }

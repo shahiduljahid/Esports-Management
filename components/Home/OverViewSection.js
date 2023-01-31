@@ -8,14 +8,14 @@ const OverViewSection = () => {
   const data = [
     {
       id: 1,
-      image: '/img/land-home-img-5.jpg',
+      image: '/img/banner2.jpg',
       subImage: '/img/landing-logo-4.png',
       text: 'text',
       title: 'title',
     },
     {
       id: 2,
-      image: '/img/land-home-img-6.jpg',
+      image: '/img/winnerBanner.jpg',
       subImage: '/img/landing-logo-2.png',
       text: 'text',
       title: 'title',
@@ -63,7 +63,7 @@ const OverViewSection = () => {
                 md={6}
               >
                 <div
-                  style={{ backgroundImage: `url(${ele.image})` }}
+                  style={{ backgroundImage: `url(${ele.image})` ,backgroundSize:'contain',backgroundRepeat:'no-repeat' }}
                   className={homeStyle.overViewImage}
                 ></div>
                 <div className={homeStyle.overViewSubImage}>
