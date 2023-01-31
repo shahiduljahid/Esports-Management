@@ -8,7 +8,7 @@ import Link from 'next/link'
 import CustomCarousel from '../CustomCarousel/CustomCarousel'
 import SectionCarousel from '../../pages-sections/Components-Sections/SectionCarousel'
 
-const ScheduleLayoutSection = () => {
+const FeaturedSection = () => {
   const data = [
     {
       id: 1,
@@ -197,4 +197,4 @@ const ScheduleLayoutSection = () => {
   )
 }
 
-export default ScheduleLayoutSection
+export default FeaturedSection

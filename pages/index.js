@@ -27,8 +27,9 @@ import homeStyle from '/components/Header/Header.module.css'
 import Image from 'next/image'
 import Layout from './../Layout/Layout'
 import OverViewSection from '/components/Home/OverViewSection'
-import ScheduleLayoutSection from '/components/Home/ScheduleLayoutSection';
+
 import ContactSection from '/components/Home/ContactSection';
+import FeaturedSection from '../components/Home/FeaturedSection'
 
 
 const dashboardRoutes = []
@@ -149,7 +150,7 @@ export default function LandingPage(props) {
                 {' '}
                 <div className={classes.container}>
                   <OverViewSection />
-                  <ScheduleLayoutSection/>
+                  <FeaturedSection/>
                   <ContactSection/>
                 </div>
               </div>
