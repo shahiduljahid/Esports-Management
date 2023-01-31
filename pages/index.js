@@ -22,7 +22,7 @@ import ProductSection from '/pages-sections/LandingPage-Sections/ProductSection.
 import TeamSection from '/pages-sections/LandingPage-Sections/TeamSection.js'
 import WorkSection from '/pages-sections/LandingPage-Sections/WorkSection.js'
 
-import homeStyle from '/components/Header/Header.module.css'
+import homeStyle from '../components/Header/Header.module.css'
 
 import Image from 'next/image'
 import Layout from './../Layout/Layout'
