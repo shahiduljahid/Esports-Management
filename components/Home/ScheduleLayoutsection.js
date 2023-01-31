@@ -58,6 +58,7 @@ const ScheduleLayoutSection = () => {
           image1: '/img/assets/commingSoonBG.jpg',
           image2: '/img/assets/commingSoonBG.jpg',
           image3: '/img/assets/commingSoonBG.jpg',
+          
         },
       ],
 
