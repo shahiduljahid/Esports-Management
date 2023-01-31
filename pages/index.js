@@ -22,13 +22,14 @@ import ProductSection from '/pages-sections/LandingPage-Sections/ProductSection.
 import TeamSection from '/pages-sections/LandingPage-Sections/TeamSection.js'
 import WorkSection from '/pages-sections/LandingPage-Sections/WorkSection.js'
 
-import homeStyle from '../components/Header/Header.module.css'
+import homeStyle from '/components/Header/Header.module.css'
 
 import Image from 'next/image'
 import Layout from './../Layout/Layout'
-import OverViewSection from '../components/Home/OverViewSection'
-import ContactSection from '../components/Home/ContactSection'
-import ScheduleLayoutSection from '../components/Home/ScheduleLayoutSection'
+import OverViewSection from '/components/Home/OverViewSection'
+import ScheduleLayoutSection from '/components/Home/ScheduleLayoutSection';
+import ContactSection from '/components/Home/ContactSection';
+
 
 const dashboardRoutes = []
 
@@ -148,8 +149,8 @@ export default function LandingPage(props) {
                 {' '}
                 <div className={classes.container}>
                   <OverViewSection />
-                  <ScheduleLayoutSection />
-                  <ContactSection />
+                  <ScheduleLayoutSection/>
+                  <ContactSection/>
                 </div>
               </div>
             </div>
