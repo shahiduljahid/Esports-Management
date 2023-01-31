@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import GridContainer from '/components/Grid/GridContainer.js'
 import GridItem from '/components/Grid/GridItem.js'
 import Card from '/components/Card/Card.js'
-import homeStyle from '/Components/Header/Header.module.css'
+import homeStyle from '../Header/Header.module.css'
 import styles from '/styles/jss/nextjs-material-kit/pages/componentsSections/carouselStyle.js'
 import Components from './../../pages/components'
 const useStyles = makeStyles(styles)
