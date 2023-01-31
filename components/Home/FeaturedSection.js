@@ -42,7 +42,7 @@ const FeaturedSection = () => {
       imgData: [
         {
           image1: '/img/certificate.jpg',
-          image2: '/img/cer2.png',
+          image2: '/img/cer2.jpg',
           image3: '/img/cer3.jpg',
         },
       ],
