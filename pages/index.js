@@ -1,36 +1,22 @@
 import React, { useEffect, useState } from 'react'
-// nodejs library that concatenates classes
 import classNames from 'classnames'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 
-// @material-ui/icons
-
 // core components
-import Header from '/components/Header/Header.js'
-import Footer from '/components/Footer/Footer.js'
 import GridContainer from '/components/Grid/GridContainer.js'
 import GridItem from '/components/Grid/GridItem.js'
 import Button from '/components/CustomButtons/Button.js'
-import HeaderLinks from '/components/Header/HeaderLinks.js'
 import Parallax from '/components/Parallax/Parallax.js'
-
 import styles from '/styles/jss/nextjs-material-kit/pages/landingPage.js'
-
-// Sections for this page
-import ProductSection from '/pages-sections/LandingPage-Sections/ProductSection.js'
-import TeamSection from '/pages-sections/LandingPage-Sections/TeamSection.js'
-import WorkSection from '/pages-sections/LandingPage-Sections/WorkSection.js'
-
 import homeStyle from '../components/Header/Header.module.css'
-
 import Image from 'next/image'
 import Layout from './../Layout/Layout'
 import OverViewSection from '/components/Home/OverViewSection'
-
-import ContactSection from '/components/Home/ContactSection';
+import ContactSection from '/components/Home/ContactSection'
 import FeaturedSection from '../components/Home/FeaturedSection'
-
+import FaqSection from '../components/Home/FaqSection'
+import Link from 'next/link'
 
 const dashboardRoutes = []
 
@@ -137,9 +123,11 @@ export default function LandingPage(props) {
                   md={12}
                   className={classes.textCenter}
                 >
-                  <Button round color="danger">
-                    GET STARTED
-                  </Button>
+                  <Link href="/dashboard">
+                    <Button round color="danger" target="_blank">
+                      GET STARTED
+                    </Button>
+                  </Link>
                 </GridItem>
               </GridContainer>
             </div>
@@ -150,8 +138,9 @@ export default function LandingPage(props) {
                 {' '}
                 <div className={classes.container}>
                   <OverViewSection />
-                  <FeaturedSection/>
-                  <ContactSection/>
+                  <FeaturedSection />
+                  <FaqSection />
+                  <ContactSection />
                 </div>
               </div>
             </div>

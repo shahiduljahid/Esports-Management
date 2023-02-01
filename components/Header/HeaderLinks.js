@@ -62,7 +62,7 @@ export default function HeaderLinks(props) {
                 Certificate Management
               </a>
             </Link>,
-            <Link href="#">
+            <Link href="/">
               <a className={classes.dropdownLink}>Stream Management</a>
             </Link>,
           ]}

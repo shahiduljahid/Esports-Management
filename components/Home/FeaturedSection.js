@@ -124,7 +124,7 @@ const FeaturedSection = () => {
                     <p style={{ opacity: '0.8', marginTop: '20px' }}>
                       {ele.text}
                     </p>
-                    <Link href="/about">
+                    <Link href="/">
                       <div>
                         {' '}
                         <h4
@@ -163,7 +163,7 @@ const FeaturedSection = () => {
                     <p style={{ opacity: '0.8', marginTop: '20px' }}>
                       {ele.text}
                     </p>
-                    <Link href="/about">
+                    <Link href="/">
                       <div>
                         {' '}
                         <h4
