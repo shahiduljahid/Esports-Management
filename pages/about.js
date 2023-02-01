@@ -40,8 +40,8 @@ const about = () => {
   ]
   const classes = useStyles()
   return (
-    <Layout>
-      <div>
+    <Layout image ={'/img/assets/teamBg.jpg'}>
+      <div >
         {' '}
         <GridContainer
           style={{
@@ -74,7 +74,7 @@ const about = () => {
             </GridItem>
           </GridItem>
           <GridItem
-            style={{ margin: '0px', marginTop: '50px' }}
+            style={{ margin: '0px', marginTop: '50px' ,}}
             xs={11}
             md={10}
           >

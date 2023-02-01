@@ -151,6 +151,7 @@ export default function SectionBasics() {
             </GridItem>
             <GridItem xs={12} sm={4} md={4} lg={3}>
               <CustomInput
+              variant="outlined"
                 labelText="With floating label"
                 id="float"
                 formControlProps={{

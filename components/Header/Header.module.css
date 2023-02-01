@@ -119,14 +119,13 @@
   border-radius: 5px;
   height: 350px;
   width: 350px;
-  transition: all .4s ease 0s!important;
+  transition: all 0.4s ease 0s !important;
 }
 .teamPlayerCard:hover {
-border-radius: 10px;
-transform: scale(1.05)!important;
-overflow: hidden!important;
+  border-radius: 10px;
+  transform: scale(1.05) !important;
+  overflow: hidden !important;
 }
-
 
 .teamPlayerCard:before {
   content: '';
@@ -141,23 +140,42 @@ overflow: hidden!important;
 
 .teamPlayerCard:hover:before {
   height: 100%;
-  background: linear-gradient(to bottom, transparent 0%, #7f63ea 100%);
+  background: linear-gradient(to bottom, transparent 0%, #fd3147 100%);
 }
 
 .teamPlayerName {
   position: absolute;
   bottom: 0%;
 
-  color: #fd3147;
+  color: #7f63ea;
   opacity: 0;
 }
-.teamPlayerCard:hover + .teamPlayerName{
-    opacity: 1;
+.teamPlayerCard:hover + .teamPlayerName {
+  opacity: 1;
   -ms-transform: translateY(20px);
   transform: translateY(20px);
   -webkit-transition: 0.5s cubic-bezier(0.25, 0.03, 0, 1.02);
   -o-transition: 0.5s cubic-bezier(0.25, 0.03, 0, 1.02);
   transition: 0.5s cubic-bezier(0.25, 0.03, 0, 1.02);
+}
+.contactTitleSection {
+  display: flex;
+  justify-content: center;
+  margin-top: 90px  !important;
+  margin-bottom: 90px  !important;
+}
+.contactTitleText {
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  font-size: 60px;
+}
+.contactFormText{
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  font-size: 40px;
+
 }
 
 @media (max-width: 991px) {
@@ -178,7 +196,6 @@ overflow: hidden!important;
     height: 400px;
     width: 350px;
   }
-  
 }
 @media (max-width: 767px) {
   .heroTitle {
@@ -216,8 +233,19 @@ overflow: hidden!important;
     height: 400px;
     width: 350px;
   }
-
+  .contactTitleSection{
+    margin-top: 70px  !important;
+  margin-bottom: 70px  !important;
+  }
+  .contactTitleText {
  
+    font-size: 40px;
+  }
+  .contactFormText{
+
+    font-size: 25px;
+  
+  }
 }
 @media (max-width: 500px) {
   .heroTitle {
@@ -227,5 +255,4 @@ overflow: hidden!important;
     height: 250px;
     width: 200px;
   }
-  
 }

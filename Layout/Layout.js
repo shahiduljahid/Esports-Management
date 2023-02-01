@@ -7,7 +7,7 @@ import Aos from 'aos'
 import 'aos/dist/aos.css'
 import { useEffect } from 'react'
 
-const Layout = ({ children, color, ...rest }) => {
+const Layout = ({ children, color,image, ...rest }) => {
   const dashboardRoutes = []
   const router = useRouter()
   useEffect(() => {
@@ -20,7 +20,7 @@ const Layout = ({ children, color, ...rest }) => {
   return (
     <div
       style={{
-        backgroundImage: `url("/img/landing-bckgrd.jpg")`,
+        backgroundImage: `url(${image?image:"/img/landing-bckgrd.jpg"})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
       }}
