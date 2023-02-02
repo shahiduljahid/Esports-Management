@@ -6,6 +6,7 @@ import Router from 'next/router'
 import PageChange from '/components/PageChange/PageChange.js'
 import '/styles/scss/nextjs-material-kit.scss?v=1.2.0'
 import '/styles/css/app.css'
+import { AuthProvider } from '../lib/auth'
 
 Router.events.on('routeChangeStart', (url) => {
   document.body.classList.add('body-page-transition')
@@ -43,10 +44,11 @@ export default class MyApp extends App {
           />
           <title>ESPORTS GROUND </title>
         </Head>
-
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <AuthProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
       </React.Fragment>
     )
   }

@@ -1,8 +1,8 @@
 import React from 'react'
 import ComingSoon from './comingSoon'
 
-const gallery = () => {
+const stream = () => {
   return <ComingSoon />
 }
 
-export default gallery
+export default stream

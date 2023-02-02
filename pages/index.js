@@ -85,7 +85,7 @@ export default function LandingPage(props) {
                 <GridItem xs={12}>
                   <GridContainer
                     style={{ display: 'flex', justifyContent: 'center' }}
-                    justifyContent="center"
+                   
                     spacing={1}
                   >
                     <GridItem data-aos="fade-right" xs={4}>

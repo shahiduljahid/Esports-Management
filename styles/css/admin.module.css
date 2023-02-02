@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Subrayada:wght@400;700&family=Zen+Tokyo+Zoo&display=swap");
+
+.logo_title {
+  line-height: 0;
+  font-size: 20px;
+  font-family: "Zen Tokyo Zoo", cursive;
+  color: #00cfff;
+}
+.logo_sub_title {
+  line-height: 1;
+  font-size: 11px;
+  /* font-weight: bold; */
+  text-transform: lowercase;
+  font-family: "Montserrat Subrayada", sans-serif;
+}
+
+.active .MuiListItem-button {
+  background: rgb(244, 234, 255);
+}
+.DropActive .MuiListItem-button {
+  background: rgb(227, 210, 255);
+}
+
+.active .MuiListItem-button::before {
+  content: "";
+  position: absolute;
+  height: 6px;
+  width: 51px;
+  background-color: rgb(50, 11, 100);
+  transform: rotate(90deg);
+  left: -23px;
+  top: 22px;
+}

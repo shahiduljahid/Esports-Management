@@ -20,10 +20,13 @@ import Button from '/components/CustomButtons/Button.js'
 
 import styles from '/styles/jss/nextjs-material-kit/components/headerLinksStyle.js'
 import { Schedule } from '@material-ui/icons/Schedule'
+import AccountPopover from './../Navbars/AccountPopover'
+import { useAuth } from '../../lib/auth'
 
 const useStyles = makeStyles(styles)
 
 export default function HeaderLinks(props) {
+  const { user, logOut } = useAuth()
   const classes = useStyles()
   return (
     <List className={classes.list}>
@@ -53,14 +56,10 @@ export default function HeaderLinks(props) {
           }}
           dropdownList={[
             <Link href="#">
-              <a className={classes.dropdownLink}>
-                Schedule Management
-              </a>
+              <a className={classes.dropdownLink}>Schedule Management</a>
             </Link>,
             <Link href="#">
-              <a className={classes.dropdownLink}>
-                Certificate Management
-              </a>
+              <a className={classes.dropdownLink}>Certificate Management</a>
             </Link>,
             <Link href="/">
               <a className={classes.dropdownLink}>Stream Management</a>
@@ -69,13 +68,13 @@ export default function HeaderLinks(props) {
         />
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Link href="/gallery">
+        <Link href="/stream">
           <Button
             color="transparent"
             target="_blank"
             className={classes.navLink}
           >
-            Gallery
+            Stream
           </Button>
         </Link>
       </ListItem>
@@ -90,25 +89,27 @@ export default function HeaderLinks(props) {
           </Button>
         </Link>
       </ListItem>
+      {user && (
+        <ListItem className={classes.listItem}>
+          <Link href="/dashboard">
+            <Button
+              color="transparent"
+              target="_blank"
+              className={classes.navLink}
+            >
+              Tournament
+            </Button>
+          </Link>
+        </ListItem>
+      )}
+
+      {user && (
+        <ListItem className={classes.listItem}>
+          <AccountPopover />
+        </ListItem>
+      )}
 
       {/* <ListItem className={classes.listItem}>
-        <Tooltip
-          id="instagram-twitter"
-          title="Follow us on twitter"
-          placement={"top"}
-          classes={{ tooltip: classes.tooltip }}
-        >
-          <Button
-            href="https://twitter.com/"
-            target="_blank"
-            color="transparent"
-            className={classes.navLink}
-          >
-            <i className={classes.socialIcons + " fab fa-twitter"} />
-          </Button>
-        </Tooltip>
-      </ListItem>
-      <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-facebook"
           title="Follow us on facebook"

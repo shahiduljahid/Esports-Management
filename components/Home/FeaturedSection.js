@@ -58,7 +58,6 @@ const FeaturedSection = () => {
           image1: '/img/assets/commingSoonBG.jpg',
           image2: '/img/assets/commingSoonBG.jpg',
           image3: '/img/assets/commingSoonBG.jpg',
-          
         },
       ],
 
@@ -103,9 +102,9 @@ const FeaturedSection = () => {
         </GridItem>
         {data.map((ele, i) => {
           return (
-            <div style={{ padding: '0px 10px' }}>
+            <div key={ele.id} style={{ padding: '0px 10px' }}>
               {ele.id !== 2 && ele.id !== 4 ? (
-                <GridContainer key={ele.id}>
+                <GridContainer>
                   <GridItem xs={12} md={6}>
                     <CustomCarousel data={ele.imgData} />
                   </GridItem>
@@ -147,7 +146,7 @@ const FeaturedSection = () => {
                   </GridItem>
                 </GridContainer>
               ) : (
-                <GridContainer key={ele.id}>
+                <GridContainer>
                   <GridItem style={{ marginTop: '30px' }} xs={12} md={6}>
                     <h2
                       className={homeStyle.rotateLine}

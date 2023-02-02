@@ -75,7 +75,7 @@ const FaqSection = () => {
         </GridItem>{' '}
         {Faqs.map((faq) => {
           return (
-            <GridItem style={{ margin: '10px 0px' }} xs={12} md={6}>
+            <GridItem key={faq.id} style={{ margin: '10px 0px' }} xs={12} md={6}>
               {' '}
               <div className={classes.root}>
                 <Accordion
