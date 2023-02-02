@@ -1,5 +1,6 @@
 import React from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
+import DashboardLayout from './../../Layout/DashboardLayout';
+
 
 
 const Dashboard = ({users }) => {
