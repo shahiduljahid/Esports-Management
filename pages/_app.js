@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
+import { SnackbarProvider } from 'notistack'
 import PageChange from '/components/PageChange/PageChange.js'
 import '/styles/scss/nextjs-material-kit.scss?v=1.2.0'
 import '/styles/css/app.css'
@@ -43,12 +44,14 @@ export default class MyApp extends App {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <title>ESPORTS GROUND </title>
-        </Head>
-        <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
+        </Head>{' '}
+        <SnackbarProvider maxSnack={3}>
+          <AuthProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AuthProvider>{' '}
+        </SnackbarProvider>
       </React.Fragment>
     )
   }

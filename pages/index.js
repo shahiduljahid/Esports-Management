@@ -53,6 +53,7 @@ export default function LandingPage(props) {
   loader()
 
   return (
+    <Layout>
     <div>
       {loading ? (
         <div
@@ -70,85 +71,84 @@ export default function LandingPage(props) {
           </div>
         </div>
       ) : (
-        <Layout>
-          <Parallax
-            className={homeStyle.container}
-            filter
-            responsive
-            image={sliderImages[sliderIndex]}
-          >
-            <div
-              style={{ marginTop: '100px', marginBottom: '100px' }}
-              className={classes.container}
-            >
-              <GridContainer>
-                <GridItem xs={12}>
-                  <GridContainer
-                    style={{ display: 'flex', justifyContent: 'center' }}
-                   
-                    spacing={1}
-                  >
-                    <GridItem data-aos="fade-right" xs={4}>
-                      {' '}
-                      <Image
-                        src={'/img/assets/esGroundOnlyLogo.png'}
-                        alt="logo"
-                        width={300}
-                        height={300}
-                      />
-                    </GridItem>
-                    <GridItem xs={4}>
-                      <h1 data-aos="fade-left" className={homeStyle.heroTitle}>
-                        <span>ESPORTS</span> <br /> <span>GROUND</span>
-                      </h1>
+       
+         <> <Parallax
+         className={homeStyle.container}
+         filter
+         responsive
+         image={sliderImages[sliderIndex]}
+       >
+         <div
+           style={{ marginTop: '100px', marginBottom: '100px' }}
+           className={classes.container}
+         >
+           <GridContainer>
+             <GridItem xs={12}>
+               <GridContainer
+                 style={{ display: 'flex', justifyContent: 'center' }}
+                
+                 spacing={1}
+               >
+                 <GridItem data-aos="fade-right" xs={4}>
+                   {' '}
+                   <Image
+                     src={'/img/assets/esGroundOnlyLogo.png'}
+                     alt="logo"
+                     width={300}
+                     height={300}
+                   />
+                 </GridItem>
+                 <GridItem xs={4}>
+                   <h1 data-aos="fade-left" className={homeStyle.heroTitle}>
+                     <span>ESPORTS</span> <br /> <span>GROUND</span>
+                   </h1>
 
-                      {/* <h2 className={textStyle.heroTitle}>Third Party Certificate Oman</h1> */}
-                    </GridItem>
-                  </GridContainer>
+                   {/* <h2 className={textStyle.heroTitle}>Third Party Certificate Oman</h1> */}
+                 </GridItem>
+               </GridContainer>
 
-                  <p data-aos="zoom-in" className={homeStyle.subtitle}>
-                    A esports management Platform
-                  </p>
+               <p data-aos="zoom-in" className={homeStyle.subtitle}>
+                 A esports management Platform
+               </p>
 
-                  <br />
-                </GridItem>
-                <GridItem
-                  data-aos="fade-up"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  className={classes.textCenter}
-                >
-                  <Link href="/dashboard">
-                    <Button round color="danger" target="_blank">
-                      GET STARTED
-                    </Button>
-                  </Link>
-                </GridItem>
-              </GridContainer>
-            </div>
-          </Parallax>
-          <div>
-            <div className={classNames(classes.main, classes.mainRaised)}>
-              <div className={homeStyle.backGround}>
-                {' '}
-                <div className={classes.container}>
-                  <OverViewSection />
-                  <FeaturedSection />
-                  <FaqSection />
-                  <ContactSection />
-                </div>
-              </div>
-            </div>
-          </div>
-        </Layout>
+               <br />
+             </GridItem>
+             <GridItem
+               data-aos="fade-up"
+               style={{
+                 display: 'flex',
+                 justifyContent: 'center',
+               }}
+               xs={12}
+               sm={12}
+               md={12}
+               className={classes.textCenter}
+             >
+               <Link href="/dashboard">
+                 <Button round color="danger" target="_blank">
+                   GET STARTED
+                 </Button>
+               </Link>
+             </GridItem>
+           </GridContainer>
+         </div>
+       </Parallax>
+       <div>
+         <div className={classNames(classes.main, classes.mainRaised)}>
+           <div className={homeStyle.backGround}>
+           
+             <div className={classes.container}>
+               <OverViewSection />
+               <FeaturedSection />
+               <FaqSection />
+               <ContactSection />
+             </div>
+           </div>
+         </div>
+       </div></>
+        
       )}
-
-      {/* landing-bg.jpg */}
     </div>
+    </Layout>
   )
 }

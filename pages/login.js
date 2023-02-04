@@ -31,6 +31,8 @@ import { useAuth } from '../lib/auth'
 import { useRouter } from 'next/router'
 import { ThreeBounce } from 'better-react-spinkit'
 
+
+
 const useStyles = makeStyles(styles)
 
 export default function LoginPage(props) {
@@ -45,8 +47,9 @@ export default function LoginPage(props) {
 
   const router = useRouter()
   const { user } = useAuth()
+  console.log(user)
   if (user) {
-    router.push(router.pathname)
+    router.push('/dashboard')
   }
   const [newUser, setNewUser] = useState(false)
   // const [resetPopup, setResetPopup] = useState(false);
@@ -150,7 +153,7 @@ export default function LoginPage(props) {
                       >
                         <i className={'fab fa-linkedin'} />
                       </Button>
-                  
+
                       <Button
                         style={{
                           cursor:
@@ -309,16 +312,13 @@ export default function LoginPage(props) {
                       )}
                     </Button>
                   </CardFooter>
-                  {loginStatus.error !== '' && (
-                    <p style={{ color: 'red', textAlign: 'center' }}>
-                      {loginStatus.error}
-                    </p>
-                  )}
+              
                   <p style={{ textAlign: 'center', marginBottom: 25 }}>
                     {!newUser ? (
                       <span style={{ color: 'black' }}>
                         Don't have account?{' '}
                         <span
+                          style={{ cursor: 'pointer' }}
                           className={classes.underline}
                           onClick={() => {
                             setNewUser(true)
@@ -331,6 +331,7 @@ export default function LoginPage(props) {
                       <span style={{ color: 'black' }}>
                         Already have an account?{' '}
                         <span
+                          style={{ cursor: 'pointer' }}
                           className={classes.underline}
                           onClick={() => {
                             setNewUser(false)
