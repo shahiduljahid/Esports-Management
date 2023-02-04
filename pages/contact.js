@@ -71,6 +71,7 @@ const contact = () => {
 
   const onSubmit = async (data) => {
     setDownloading(true)
+    console.log(process.env.NEXT_PUBLIC_EMAILJS_SERVICEID)
 
     emailjs
       .send(
