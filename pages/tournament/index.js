@@ -12,7 +12,7 @@ import axios from 'axios'
 // core components
 import DashboardLayout from '../../Layout/DashboardLayout'
 import getUrl from '../../Functions/getUrl'
-
+import { useAuth } from '../../lib/auth'
 //dialog component
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -61,8 +61,14 @@ const textFields = [
   },
 ]
 
+const handleUserTourData = (userId, allTour) => {
+  return allTour.filter((item) => item.creator === userId)
+}
 const CreateTournament = ({ users, tournaments }) => {
-  const [tableData, setTableData] = useState(tournaments)
+  const { user } = useAuth()
+  const [tableData, setTableData] = useState(
+    handleUserTourData(user?._id, tournaments),
+  )
   const classes = useStyles()
   const [imgLoading, setImageLoading] = useState(false)
   const [reload, setReload] = useState(false)
@@ -101,7 +107,7 @@ const CreateTournament = ({ users, tournaments }) => {
         enqueueSnackbar,
       )
     }
-
+    data.creator = user?._id
     data.tourFormat = tourFormat ? tourFormat : 'SQUAD'
     data.orgLogo = orgLogo ? orgLogo : ''
     data.tourLogo = tourLogo
@@ -111,7 +117,7 @@ const CreateTournament = ({ users, tournaments }) => {
       data,
     )
     if (res.data) {
-      setTableData(res.data)
+      setTableData(handleUserTourData(user?._id, res.data))
       notificationPopUp(
         'tournament created successfully',
         'success',
@@ -142,7 +148,6 @@ const CreateTournament = ({ users, tournaments }) => {
   const [imgDialogOpen, setImgDialogOpen] = useState(false)
 
   const handleImgDialogOpen = (data) => {
-    console.log(data)
     setGalleryImg([data])
     setImgDialogOpen(true)
   }
@@ -164,7 +169,7 @@ const CreateTournament = ({ users, tournaments }) => {
         const newTableData = tableData.filter(
           (item) => item._id !== deletedEleId,
         )
-        setTableData(newTableData)
+        setTableData(handleUserTourData(user?._id, newTableData))
         setReload(false)
       }
     } catch (err) {
