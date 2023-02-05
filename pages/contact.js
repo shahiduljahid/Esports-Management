@@ -73,13 +73,12 @@ const contact = () => {
     setDownloading(true)
     console.log(process.env.NEXT_PUBLIC_EMAILJS_SERVICEID)
 
-    
     emailjs
       .send(
-        `${process.env.NEXT_PUBLIC_EMAILJS_SERVICEID}`,
-        `${process.env.NEXT_PUBLIC_EMAILJS_TEMPLATEID}`,
+        `service_u9jac3a`,
+        `template_d83z4a8`,
         data,
-        `${process.env.NEXT_PUBLIC_EMAILJS_PUBLICKEY}`,
+        `user_Se0Rdu8pmQynduEs8uokY`,
       )
       .then(
         function (response) {
