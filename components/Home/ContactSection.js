@@ -32,7 +32,7 @@ export default function ContactSection() {
             <br />
             LET'S START TODAY
           </h2>
-          <Link href="/dashboard">
+          <Link href="/tournament">
             <Button color="danger" target="_blank">
               Let's start
             </Button>

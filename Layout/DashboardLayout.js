@@ -166,7 +166,7 @@ const DashboardLayout = (props) => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <Link href="/dashboard/">
+        <Link href="/tournament/">
           <ListItem button>
             <ListItemIcon>
               {' '}

@@ -124,7 +124,7 @@ export default function LandingPage(props) {
                md={12}
                className={classes.textCenter}
              >
-               <Link href="/dashboard">
+               <Link href="/tournament">
                  <Button round color="danger" target="_blank">
                    GET STARTED
                  </Button>

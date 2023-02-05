@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, CSSProperties } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -29,9 +29,13 @@ import styles from '/styles/jss/nextjs-material-kit/pages/loginPage.js'
 import Head from 'next/head'
 import { useAuth } from '../lib/auth'
 import { useRouter } from 'next/router'
-import { ThreeBounce } from 'better-react-spinkit'
+import BeatLoader from 'react-spinners/BeatLoader'
 
-
+// const override: CSSProperties = {
+//   display: "block",
+//   margin: "0 auto",
+//   borderColor: "red",
+// };
 
 const useStyles = makeStyles(styles)
 
@@ -47,9 +51,8 @@ export default function LoginPage(props) {
 
   const router = useRouter()
   const { user } = useAuth()
-  console.log(user)
   if (user) {
-    router.push('/dashboard')
+    router.push('/tournament')
   }
   const [newUser, setNewUser] = useState(false)
   // const [resetPopup, setResetPopup] = useState(false);
@@ -307,12 +310,14 @@ export default function LoginPage(props) {
                       size="lg"
                     >
                       {newUser ? 'Sign Up' : 'log in'}
-                      {loginStatus.status == 'pending' && (
-                        <ThreeBounce style={{ marginLeft: 5 }} color="white" />
+                      {loginStatus.status == "pending" && (
+                  
+                        <BeatLoader  style={{ marginLeft: 5 }} margin={2}
+                        size={12} color="white" />
                       )}
                     </Button>
                   </CardFooter>
-              
+
                   <p style={{ textAlign: 'center', marginBottom: 25 }}>
                     {!newUser ? (
                       <span style={{ color: 'black' }}>

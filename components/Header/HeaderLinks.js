@@ -97,7 +97,7 @@ export default function HeaderLinks(props) {
         <>
           {' '}
           <ListItem className={classes.listItem}>
-            <Link href="/dashboard">
+            <Link href="/tournament">
               <CustomButton
                 color="transparent"
                 target="_blank"
@@ -115,7 +115,7 @@ export default function HeaderLinks(props) {
         <>
           {!user &&
             router.pathname !== '/login' &&
-            router.pathname !== '/dashboard' && (
+            router.pathname !== '/tournament' && (
               <ListItem className={classes.listItem}>
                 <Link href="/login">
                   <Button
