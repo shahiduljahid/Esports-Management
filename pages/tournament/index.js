@@ -110,7 +110,7 @@ const CreateTournament = ({ users, tournaments }) => {
     data.creator = user?._id
     data.tourFormat = tourFormat ? tourFormat : 'SQUAD'
     data.orgLogo = orgLogo ? orgLogo : ''
-    data.tourLogo = tourLogo
+    data.tourLogo = tourLogo ?tourLogo:""
     console.log(data)
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments`,
