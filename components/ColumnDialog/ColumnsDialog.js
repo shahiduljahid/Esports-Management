@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Button, Typography, Checkbox, IconButton } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from 'react'
+import { Button, Typography, Checkbox, IconButton } from '@material-ui/core'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { useForm } from 'react-hook-form'
 //internal import
 //Dialog import
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import CloseIcon from "@material-ui/icons/Close";
+import Dialog from '@material-ui/core/Dialog'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
+import MuiDialogContent from '@material-ui/core/DialogContent'
+import MuiDialogActions from '@material-ui/core/DialogActions'
+import CloseIcon from '@material-ui/icons/Close'
 
 //dialog component
 const modalStyles = (theme) => ({
@@ -17,15 +17,15 @@ const modalStyles = (theme) => ({
     padding: theme.spacing(2),
   },
   closeButton: {
-    position: "absolute",
+    position: 'absolute',
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-});
+})
 
 const DialogTitle = withStyles(modalStyles)((props) => {
-  const { children, classes, onClose, ...other } = props;
+  const { children, classes, onClose, ...other } = props
 
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
@@ -40,31 +40,29 @@ const DialogTitle = withStyles(modalStyles)((props) => {
         </IconButton>
       ) : null}
     </MuiDialogTitle>
-  );
-});
+  )
+})
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   container: {
     maxHeight: 440,
   },
-
-
-}));
+}))
 
 const DialogContent = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
-}))(MuiDialogContent);
+}))(MuiDialogContent)
 
 const DialogActions = withStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
-}))(MuiDialogActions);
+}))(MuiDialogActions)
 const ColumnsDialog = ({
   handleClose,
   open,
@@ -72,9 +70,9 @@ const ColumnsDialog = ({
   updateColumns,
   setUpdateColumns,
   tableColumnsName,
-  title
+  title,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   const {
     register,
     handleSubmit,
@@ -82,13 +80,13 @@ const ColumnsDialog = ({
     setValue,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm()
   const onSubmit = async (data) => {
-    console.log(data);
-    localStorage.setItem(tableColumnsName, JSON.stringify(data));
-    setUpdateColumns(!updateColumns);
-    handleClose();
-  };
+    console.log(data)
+    localStorage.setItem(tableColumnsName, JSON.stringify(data))
+    setUpdateColumns(!updateColumns)
+    handleClose()
+  }
   return (
     <Dialog
       onClose={handleClose}
@@ -99,28 +97,25 @@ const ColumnsDialog = ({
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           <h4
             style={{
-              color: "black",
-              fontWeight: "bold",
+              color: 'black',
+              fontWeight: 'bold',
               margin: 0,
               padding: 0,
             }}
             className={classes.title}
           >
-            {
-              title?"Choose Template":"Hide/Show columns"
-            }
-        
+            {title ? 'Choose Template' : 'Hide/Show columns'}
           </h4>
         </DialogTitle>
         <DialogContent dividers>
-          <Typography style={{ color: "#00cfff" }} gutterBottom>
+          <Typography style={{ color: '#00cfff' }} gutterBottom>
             <fieldset
-              style={{ float: "left", display: "flex", flexWrap: "wrap" }}
+              style={{ float: 'left', display: 'flex', flexWrap: 'wrap' }}
             >
-              {headerCell.map((item) => {
+              {headerCell.map((item, i) => {
                 return (
-                  <>
-                    <label>
+                
+                    <label key={i}>
                       <Checkbox
                         defaultChecked={item?.value}
                         type="checkbox"
@@ -130,8 +125,8 @@ const ColumnsDialog = ({
                       />
                       {item?.label}
                     </label>
-                  </>
-                );
+              
+                )
               })}
             </fieldset>
           </Typography>
@@ -143,7 +138,7 @@ const ColumnsDialog = ({
         </DialogActions>
       </form>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ColumnsDialog;
+export default ColumnsDialog

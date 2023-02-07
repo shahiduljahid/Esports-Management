@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { TextField, InputLabel, Button, Grid } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
@@ -10,7 +10,6 @@ import { useSnackbar } from 'notistack'
 import axios from 'axios'
 
 // core components
-import DashboardLayout from '../../Layout/DashboardLayout'
 import getUrl from '../../Functions/getUrl'
 import { useAuth } from '../../lib/auth'
 //dialog component
@@ -18,8 +17,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import notificationPopUp from './../../Functions/notificationPopUp'
-import AllTournamentTable from '/components/Tournament/AllTournamentTable'
-import TournamentTable from '/components/Tournament/TournamentTable'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,42 +42,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const textFields = [
-  {
-    label: 'Tournament Title',
-    placeHolder: 'Pubg Mobile Pro league',
-    type: 'text',
-    name: 'tournament_Title',
-    isRequired: true,
-  },
-  {
-    label: 'Organization Name',
-    placeHolder: 'Esports Ground Esports',
-    type: 'text',
-    name: 'org_Name',
-    isRequired: true,
-  },
-]
-
 const handleUserTourData = (userId, allTour) => {
   return allTour.filter((item) => item.creator === userId)
 }
-const CreateTournament = ({ users, tournaments }) => {
+const EditTournament = ({ setTableData, tournament, handleClose ,setSelected }) => {
   const { user } = useAuth()
-  const [tableData, setTableData] = useState(
-    handleUserTourData(user?._id, tournaments),
-  )
   const classes = useStyles()
   const [imgLoading, setImageLoading] = useState(false)
-  const [reload, setReload] = useState(false)
-
-  const [tourFormat, setTourFormat] = useState()
-  const [tourLogo, setTourLogo] = useState()
-  const [orgLogo, setOrgLogo] = useState()
+  const [tourFormat, setTourFormat] = useState(tournament?.tourFormat)
+  const [tourLogo, setTourLogo] = useState(tournament?.tourLogo)
+  const [orgLogo, setOrgLogo] = useState(tournament?.tourLogo)
   const [galleryImg, setGalleryImg] = useState([])
   const handleTournamentFormat = (e) => {
     setTourFormat(e.target.value)
   }
+  const textFields = [
+    {
+      label: 'Tournament Title',
+      placeHolder: 'Pubg Mobile Pro league',
+      type: 'text',
+      name: 'tournament_Title',
+      defaultValue: tournament?.tournament_Title,
+      isRequired: true,
+    },
+    {
+      label: 'Organization Name',
+      placeHolder: 'Esports Ground Esports',
+      type: 'text',
+      name: 'org_Name',
+      defaultValue: tournament?.org_Name,
+      isRequired: true,
+    },
+  ]
 
   const {
     register,
@@ -112,26 +105,29 @@ const CreateTournament = ({ users, tournaments }) => {
     data.tourFormat = tourFormat ? tourFormat : 'SQUAD'
     data.orgLogo = orgLogo ? orgLogo : ''
     data.tourLogo = tourLogo ? tourLogo : ''
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments`,
+    console.log(data)
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentDetails/${tournament._id}`,
       data,
     )
     if (res.data) {
       setTableData(handleUserTourData(user?._id, res.data))
       notificationPopUp(
-        'tournament created successfully',
+        'tournament Edited successfully',
         'success',
         enqueueSnackbar,
       )
+      setSelected([])
       reset()
       setTourLogo()
       setOrgLogo()
+      handleClose()
     }
   }
 
   //handle image upload
 
-  const handleFile = async (e, name) => {
+  const handleEditFile = async (e, name) => {
     setImageLoading(true)
     const file = await e.target.files[0]
     const url = await getUrl(file)
@@ -154,27 +150,6 @@ const CreateTournament = ({ users, tournaments }) => {
 
   const handleImgDialogClose = () => {
     setImgDialogOpen(false)
-  }
-
-  //handle Delete Tournament
-  const handleTournaments = async (item) => {
-    setReload(true)
-    try {
-      const id = item._id
-      const res = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/${id}`,
-      )
-      if (res.data) {
-        const deletedEleId = res.data._id
-        const newTableData = tableData.filter(
-          (item) => item._id !== deletedEleId,
-        )
-        setTableData(handleUserTourData(user?._id, newTableData))
-        setReload(false)
-      }
-    } catch (err) {
-      console.log(err)
-    }
   }
 
   return (
@@ -226,23 +201,10 @@ const CreateTournament = ({ users, tournaments }) => {
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h4
-          style={{
-            color: 'black',
-            fontWeight: 'bold',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-          className={classes.title}
-        >
-          <span>Create New Tournament</span>
-        </h4>
-
         <GridContainer style={{ margin: 0 }}>
           {textFields.map((textField, i) => {
             return (
-              <GridItem key={i} xs={12} sm={6} md={4}>
+              <GridItem key={i} xs={12} sm={6}>
                 <InputLabel
                   required={textField.isRequired}
                   style={{
@@ -271,7 +233,7 @@ const CreateTournament = ({ users, tournaments }) => {
             )
           })}
 
-          <GridItem xs={12} sm={6} md={4}>
+          <GridItem xs={12} sm={6}>
             <InputLabel>Select Tournament Format</InputLabel>
 
             <Autocomplete
@@ -300,10 +262,9 @@ const CreateTournament = ({ users, tournaments }) => {
             />
           </GridItem>
           <GridItem
-            style={{ display: 'flex', paddingTop: '10px'}}
+            style={{ display: 'flex', paddingTop: '10px' }}
             xs={12}
-            sm={4}
-            md={3}
+            sm={6}
           >
             <div style={{ display: 'flex' }}>
               <div
@@ -314,13 +275,13 @@ const CreateTournament = ({ users, tournaments }) => {
                 }}
               >
                 <input
-                  onChange={(e) => handleFile(e, 'orgLogo')}
+                  onChange={(e) => handleEditFile(e, 'orgLogo')}
                   accept="image/*"
-                  id="orgLogo"
+                  id="EditOrgLogo"
                   type="file"
                   hidden
                 />
-                <label htmlFor="orgLogo">
+                <label htmlFor="EditOrgLogo">
                   <Button color="primary" variant="outlined" component="span">
                     {' '}
                     {'Organization Logo'}
@@ -348,8 +309,7 @@ const CreateTournament = ({ users, tournaments }) => {
           <GridItem
             style={{ display: 'flex', paddingTop: '10px' }}
             xs={12}
-            sm={4}
-            md={3}
+            sm={6}
           >
             <div style={{ display: 'flex' }}>
               <div
@@ -360,13 +320,13 @@ const CreateTournament = ({ users, tournaments }) => {
                 }}
               >
                 <input
-                  onChange={(e) => handleFile(e, 'tourLogo')}
+                  onChange={(e) => handleEditFile(e, 'tourLogo')}
                   accept="image/*"
-                  id="tourLogo"
+                  id="EditTourLogo"
                   type="file"
                   hidden
                 />
-                <label htmlFor="tourLogo">
+                <label htmlFor="EditTourLogo">
                   <Button color="secondary" variant="outlined" component="span">
                     {' '}
                     {'Tournament Logo'}
@@ -393,12 +353,9 @@ const CreateTournament = ({ users, tournaments }) => {
           </GridItem>
         </GridContainer>
         <CustomButton style={{ marginTop: '50px' }} type="submit" color="info">
-          Create Tournament
+          Edit Tournament
         </CustomButton>
       </form>
-      <div>
-        <TournamentTable tableData={tableData} setTableData={setTableData}/>
-      </div>
       <Dialog
         open={imgDialogOpen}
         onClose={handleImgDialogClose}
@@ -451,17 +408,4 @@ const CreateTournament = ({ users, tournaments }) => {
     </>
   )
 }
-
-CreateTournament.layout = DashboardLayout
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const tournament = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments`,
-  )
-  const tournaments = await tournament.json()
-  const user = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`)
-  const users = await user.json()
-  return { props: { users, tournaments } }
-}
-
-export default CreateTournament
+export default EditTournament

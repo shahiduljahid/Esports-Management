@@ -184,31 +184,21 @@ const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
           <Table size="small" stickyHeader aria-label="sticky table">
             <TableHead style={{ height: 50 }}>
               <TableRow>
-                {/* <TableCell
-                  style={{
-                    background: '#00cfff',
-                    color: 'white',
-                  }}
-                  align="left"
-                >
-                  ID
-                </TableCell> */}
-                {headerCell.map((item) => {
-                  return (
-                    <>
-                      {item?.value && (
-                        <TableCell
-                          style={{
-                            background: '#00cfff',
-                            color: 'white',
-                          }}
-                          align="left"
-                        >
-                          {item?.label}
-                        </TableCell>
-                      )}
-                    </>
-                  )
+                {headerCell.map((item, i) => {
+                  if (item?.value) {
+                    return (
+                      <TableCell
+                        key={i}
+                        style={{
+                          background: '#00cfff',
+                          color: 'white',
+                        }}
+                        align="left"
+                      >
+                        {item?.label}
+                      </TableCell>
+                    )
+                  }
                 })}
                 <TableCell
                   style={{
@@ -227,120 +217,118 @@ const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item, i) => {
                     return (
-                      <>
-                        {' '}
-                        <StyledTableRow
-                          style={{ height: '60px' }}
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                        >
-                          {/* <StyledTableCell align="left">
-                            {'#' + (i + 1)}
-                          </StyledTableCell> */}
-
-                          {tournament_Title && (
-                            <StyledTableCell align="left">
-                              {reload ? (
-                                <LoadingSkeleton />
-                              ) : (
-                                item?.tournament_Title
-                              )}
-                            </StyledTableCell>
-                          )}
-                          {org_Name && (
-                            <StyledTableCell align="left">
-                              {reload ? <LoadingSkeleton /> : item?.org_Name}
-                            </StyledTableCell>
-                          )}
-
-                          {tourFormat && (
-                            <StyledTableCell align="left">
-                              {reload ? <LoadingSkeleton /> : item?.tourFormat}
-                            </StyledTableCell>
-                          )}
-                          {orgLogo && (
-                            <StyledTableCell
-                              onClick={() => handleGallery(item?.orgLogo)}
-                              style={{ cursor: 'pointer' }}
-                              padding="1px"
-                              align="left"
-                            >
-                              {reload ? (
-                                <LoadingSkeleton />
-                              ) : item?.orgLogo ? (
-                                <>
-                                  {' '}
-                                  <LightTooltip title="Gallery" placement="top">
-                                  <Chip
-                                      color="primary"
-                                      style={{ margin: "1px",cursor:'pointer' }}
-                                      key={item?.orgLogo}
-                                      label={'VIEW ORG LOGO'}
-                                      className={classes.chip}
-                                    />
-                                    {/* <a>VIEW ORG LOGO</a> */}
-                                  </LightTooltip>
-                                </>
-                              ) : (
-                                // <p>NOT UPLOADED</p>
-                                <Chip
-                                color="basic"
-                                style={{ margin: "1px",cursor:'pointer' }}
-                                label={'NOT UPLOADED'}
-                                className={classes.chip}
-                              />
-                              )}
-                            </StyledTableCell>
-                          )}
-                          {tourLogo && (
-                            <StyledTableCell
-                              onClick={() => handleGallery(item?.tourLogo)}
-                              style={{ cursor: 'pointer' }}
-                              padding="1px"
-                              align="left"
-                            >
-                              {reload ? (
-                                <LoadingSkeleton />
-                              ) : item?.tourLogo ? (
-                                <>
-                                  {' '}
-                                  <LightTooltip title="Gallery" placement="top">
-                                  <Chip
-                                      color="secondary"
-                                      style={{ margin: "1px",cursor:'pointer' }}
-                                      key={item?.tourLogo}
-                                      label={'VIEW TOUR LOGO'}
-                                      className={classes.chip}
-                                    />
-                                  </LightTooltip>
-                                </>
-                              ) : (
-                                <Chip
-                                color="basic"
-                                style={{ margin: "1px",cursor:'pointer' }}
-                                label={'NOT UPLOADED'}
-                                className={classes.chip}
-                              />
-                              )}
-                            </StyledTableCell>
-                          )}
-
+                      <StyledTableRow
+                        key={i}
+                        style={{ height: '60px' }}
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                      >
+                        {tournament_Title && (
                           <StyledTableCell align="left">
                             {reload ? (
                               <LoadingSkeleton />
                             ) : (
-                              <Button
-                                onClick={() => handleTournaments(item)}
-                                variant="outlined"
-                                color="primary"
-                              >
-                                Delete
-                              </Button>
+                              item?.tournament_Title
                             )}
                           </StyledTableCell>
-                        </StyledTableRow>
-                      </>
+                        )}
+                        {org_Name && (
+                          <StyledTableCell align="left">
+                            {reload ? <LoadingSkeleton /> : item?.org_Name}
+                          </StyledTableCell>
+                        )}
+
+                        {tourFormat && (
+                          <StyledTableCell align="left">
+                            {reload ? <LoadingSkeleton /> : item?.tourFormat}
+                          </StyledTableCell>
+                        )}
+                        {orgLogo && (
+                          <StyledTableCell
+                            onClick={() => handleGallery(item?.orgLogo)}
+                            style={{ cursor: 'pointer' }}
+                            align="left"
+                          >
+                            {reload ? (
+                              <LoadingSkeleton />
+                            ) : item?.orgLogo ? (
+                              <>
+                                {' '}
+                                <LightTooltip title="Gallery" placement="top">
+                                  <Chip
+                                    color="primary"
+                                    style={{
+                                      margin: '1px',
+                                      cursor: 'pointer',
+                                    }}
+                                    key={item?.orgLogo}
+                                    label={'VIEW ORG LOGO'}
+                                    className={classes.chip}
+                                  />
+                                  {/* <a>VIEW ORG LOGO</a> */}
+                                </LightTooltip>
+                              </>
+                            ) : (
+                              // <p>NOT UPLOADED</p>
+                              <Chip
+                                color="default"
+                                style={{ margin: '1px', cursor: 'pointer' }}
+                                label={'NOT UPLOADED'}
+                                className={classes.chip}
+                              />
+                            )}
+                          </StyledTableCell>
+                        )}
+                        {tourLogo && (
+                          <StyledTableCell
+                            onClick={() => handleGallery(item?.tourLogo)}
+                            style={{ cursor: 'pointer' }}
+                            align="left"
+                          >
+                            {reload ? (
+                              <LoadingSkeleton />
+                            ) : item?.tourLogo ? (
+                              <>
+                                {' '}
+                                <LightTooltip title="Gallery" placement="top">
+                                  <Chip
+                                    color="secondary"
+                                    style={{
+                                      margin: '1px',
+                                      cursor: 'pointer',
+                                    }}
+                                    key={item?.tourLogo}
+                                    label={'VIEW TOUR LOGO'}
+                                    className={classes.chip}
+                                  />
+                                </LightTooltip>
+                              </>
+                            ) : (
+                              <Chip
+                                color="default"
+                                style={{ margin: '1px', cursor: 'pointer' }}
+                                label={'NOT UPLOADED'}
+                                className={classes.chip}
+                              />
+                            )}
+                          </StyledTableCell>
+                        )}
+
+                        <StyledTableCell align="left">
+                          {reload ? (
+                            <LoadingSkeleton />
+                          ) : (
+                            <Button
+                              onClick={() => handleTournaments(item)}
+                              variant="outlined"
+                              color="primary"
+                            >
+                              Delete
+                            </Button>
+                          )}
+                        </StyledTableCell>
+                      </StyledTableRow>
                     )
                   })}
             </TableBody>
