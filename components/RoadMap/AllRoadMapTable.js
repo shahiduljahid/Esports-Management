@@ -67,7 +67,7 @@ const LightTooltip = withStyles((theme) => ({
   },
 }))(Tooltip)
 
-const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
+const AllRoadMapTable = ({ tournaments, handleTournaments, reload }) => {
   console.log(tournaments)
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
@@ -108,7 +108,7 @@ const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
     org_Name,
   } = viewableColumns
 
-  let tableColumnsName = 'TournamentTableColumns'
+  let tableColumnsName = 'RoadMapTableColumns'
 
   const [updateColumns, setUpdateColumns] = useState(false)
 
@@ -164,7 +164,7 @@ const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
           }}
           className={classes.title}
         >
-          <span> All Tournaments</span>
+          <span> All RoadMaps</span>
           <CustomButton
             onClick={handleClickOpen}
             target="_blank"
@@ -324,7 +324,7 @@ const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
                               variant="outlined"
                               color="primary"
                             >
-                              Choose
+                              View
                             </Button>
                           )}
                         </StyledTableCell>
@@ -403,4 +403,4 @@ const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
   )
 }
 
-export default AllTournamentTable
+export default AllRoadMapTable

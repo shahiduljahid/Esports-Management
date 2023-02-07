@@ -1,0 +1,32 @@
+.timelineDotBg {
+  position: relative;
+  border: 0!important;;
+}
+
+.timelineDotBg:before {
+    border-radius: 50%;
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  bottom: 0;
+  transition: height 0.5s ease-out;
+  background: linear-gradient(to bottom, transparent -84%, black 100%);
+}
+.oppositeContent{
+    padding-bottom: 50px,
+}
+@media (max-width: 767px) {
+    .oppositeContent{
+        padding-bottom: 100px,
+    }
+
+}
+@media (max-width: 464px) {
+    .oppositeContent{
+        padding-bottom: 150px,
+    }
+
+}
+

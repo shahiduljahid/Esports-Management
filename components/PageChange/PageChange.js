@@ -37,7 +37,7 @@ export default function PageChange(props) {
   return (
     <div>
       
-        <div
+        {/* <div
           style={{
             width: '100%',
             height: '100vh',
@@ -50,7 +50,7 @@ export default function PageChange(props) {
           <div>
             <Image src={'/img/assets/preloader.gif'} height={300} width={200} />
           </div>
-        </div>
+        </div> */}
      
     </div>
   )

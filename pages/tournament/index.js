@@ -18,7 +18,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import notificationPopUp from './../../Functions/notificationPopUp'
-import AllTournamentTable from '/components/Tournament/AllTournamentTable'
 import TournamentTable from '/components/Tournament/TournamentTable'
 
 const useStyles = makeStyles((theme) => ({

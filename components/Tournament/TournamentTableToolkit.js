@@ -54,10 +54,27 @@ const TournamentTableToolkit = (props) => {
   const handleUserTourData = (userId, allTour) => {
     return allTour.filter((item) => item.creator === userId)
   }
+  //confirm dialog
+
+  const [confirmOpen, setConfirmOpen] = useState(false)
+
+  const handleConfirmOpen = () => {
+    setConfirmOpen(true)
+  }
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false)
+  }
+  const handleNo = () => {
+    handleConfirmClose()
+  }
+  const handleYes = async () => {
+    await handleTournaments()
+    handleConfirmClose()
+  }
 
   // delete tournaments
-  const handleTournaments = async (item) => {
-    console.log(item)
+  const handleTournaments = async () => {
     setReload(true)
     const result = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/deleteTournament`,
@@ -110,7 +127,7 @@ const TournamentTableToolkit = (props) => {
                   style={{ marginRight: '5px' }}
                   variant="outlined"
                   color="secondary"
-                  onClick={() => handleTournaments()}
+                  onClick={() => handleConfirmOpen()}
                 >
                   Delete Tournament
                 </Button>
@@ -188,6 +205,42 @@ const TournamentTableToolkit = (props) => {
           <Button onClick={() => handleClose()} color="primary">
             Close
           </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={confirmOpen}
+        onClose={handleConfirmClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle
+          style={{ color: '#00cfff', textTransform: 'uppercase' }}
+          id="alert-dialog-title"
+        >
+          {'Do you want to Delete Tournament?'}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            style={{ color: 'black', textTransform: 'uppercase' }}
+            id="alert-dialog-description"
+          >
+            if this Tournament used to generate road Map , tournament results then after delete this
+            Tournament All it's Related Document will be Deleted. Are you sure to delete this
+            Tournament ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <CustomButton onClick={() => handleNo()} size="small" color="danger">
+            cancel
+          </CustomButton>
+          <CustomButton
+            onClick={() => handleYes()}
+            color="info"
+            size="small"
+            autoFocus
+          >
+            Yes
+          </CustomButton>
         </DialogActions>
       </Dialog>
     </>

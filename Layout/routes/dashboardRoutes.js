@@ -5,8 +5,13 @@ const routes = [
     text: "Create Tournament",
   },
   {
-    href: "/tournament/team-Management",
+    href: "/tournament/roadMap",
     icon: "tabler:tournament",
+    text: "RoadMap",
+  },
+  {
+    href: "/tournament/team-Management",
+    icon: "mdi:people-group",
     text: "Team Management",
   },
   {
