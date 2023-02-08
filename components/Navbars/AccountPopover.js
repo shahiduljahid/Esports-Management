@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 
 // material
-import { fade } from "@material-ui/core/styles";
+import { alpha } from "@material-ui/core/styles";
 
 import {
   Button,
@@ -45,7 +45,7 @@ export default function AccountPopover() {
               height: '100%',
               borderRadius: '50%',
               position: 'absolute',
-              bgcolor: (theme) => fade(theme.palette.grey[900], 0.72),
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
             },
           }),
         }}

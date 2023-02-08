@@ -68,7 +68,6 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip)
 
 const AllRoadMapTable = ({ tournaments, handleTournaments, reload }) => {
-  console.log(tournaments)
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -324,7 +323,7 @@ const AllRoadMapTable = ({ tournaments, handleTournaments, reload }) => {
                               variant="outlined"
                               color="primary"
                             >
-                              View
+                              View RoadMap
                             </Button>
                           )}
                         </StyledTableCell>

@@ -30,74 +30,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function TimeLine() {
-  const roadMapData = [
-    {
-      roundName: 'QUALIFIER ROUND',
-      dividedInto: '25',
-      teamPerGroup: '20',
-      matchMakingStyle: 'default',
-      matchPerGroup: '2',
-      qualify: '10',
-      isFinal: false,
-      qualifiedTeam: '500',
-      invitedTeam: '0',
-    },
-
-    {
-      roundName: 'QUARTERFINAL ROUND',
-      dividedInto: '25',
-      teamPerGroup: '20',
-      matchMakingStyle: 'default',
-      matchPerGroup: '2',
-      qualify: '10',
-      isFinal: false,
-      qualifiedTeam: '126',
-      invitedTeam: '20',
-    },
-    {
-      roundName: 'SEMI FINAL',
-      dividedInto: '4',
-      teamPerGroup: '8',
-      matchMakingStyle: 'round-robin',
-      matchPerGroup: '12',
-      qualify: '18',
-      isFinal: false,
-      qualifiedTeam: '35',
-      invitedTeam: '5',
-    },
-    {
-      roundName: 'PRE FINAL',
-      dividedInto: '4',
-      teamPerGroup: '8',
-      matchMakingStyle: 'round-robin',
-      matchPerGroup: '12',
-      isFinal: false,
-      qualify: '18',
-      qualifiedTeam: '18',
-      invitedTeam: '0',
-    },
-    {
-      roundName: 'FINAL',
-      dividedInto: '0',
-      teamPerGroup: '16',
-      matchMakingStyle: 'default',
-      matchPerGroup: '15',
-      qualify: '0',
-      isFinal: true,
-      qualifiedTeam: '18',
-      invitedTeam: '0',
-    },
-  ]
+export default function TimeLine({roadMapData}) {
+ 
   const classes = useStyles()
 
   return (
     <Timeline style={{ padding: '0', alignItems: 'center' }} align="alternate">
-      {roadMapData.map((tour, i) => {
+      {roadMapData?.map((tour, i) => {
         console.log(i / 2)
-        if (!tour.isFinal) {
+        if (!tour?.isFinal) {
           return (
-            <TimelineItem style={{ width: '100%' }}>
+            <TimelineItem key={i} style={{ width: '100%' }}>
               <TimelineOppositeContent
               className={Style.oppositeContent}
                 style={{
@@ -107,26 +50,24 @@ export default function TimeLine() {
                   paddingTop: '30px',
                 }}
               >
-                <Typography color="textSecondary">
-                  {' '}
-                  <p
-                    style={{
+                <Typography  style={{
                       fontFamily: "'Rajdhani', sans-serif",
                       fontWeight: '800',
                       fontSize: '15px',
                       marginBottom: '0',
                       marginTop: '5px',
                       textAlign: 'center',
-                    }}
-                  >
+                    }} color="textSecondary">
+                  {' '}
+                 
                     {i === 0
-                      ? `TOTAL ${tour.qualifiedTeam} TEAM`
-                      : ` QUALIFIED ${tour.qualifiedTeam} ${
-                          parseInt(tour.invitedTeam)
-                            ? `+ ${tour.invitedTeam}  INVITED`
+                      ? `TOTAL ${tour?.qualifiedTeam} TEAM`
+                      : ` QUALIFIED ${tour?.qualifiedTeam} ${
+                          tour?.invitedTeam
+                            ? `+ ${tour?.invitedTeam}  INVITED`
                             : ''
                         } TEAM`}
-                  </p>
+                
                 </Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
@@ -146,10 +87,10 @@ export default function TimeLine() {
                     border: 0,
                   }}
                 >
-                  <span style={{ zIndex: '2' }}> {tour.roundName}</span>
+                  <span style={{ zIndex: '2' }}> {tour?.roundName}</span>
                 </TimelineDot>
 
-                {i === roadMapData.length - 1 ? (
+                {i === roadMapData?.length - 1 ? (
                   <></>
                 ) : (
                   <TimelineConnector className={classes.secondaryTail} />
@@ -172,27 +113,28 @@ export default function TimeLine() {
                     }}
                     className={classes.content}
                   >
-                    <p>
+                    <span>
                       {' '}
-                      DIVIDED INTO {tour.dividedInto} GROUP <br />
-                      {tour.teamPerGroup} TEAM PER GROUP <br />
-                      {tour.matchPerGroup} MATCH EACH GROUP{' '}
-                      {tour.matchMakingStyle === 'round-robin' &&
+                      DIVIDED INTO {tour?.dividedInto} GROUP <br />
+                      {tour?.teamPerGroup} TEAM PER GROUP <br />
+                      {tour?.matchPerGroup} MATCH EACH GROUP{' '}
+                      {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
                         'IN ROUND ROBIN FORMAT'}
-                    </p>
-                    <p style={{ color: 'greenyellow' }}>
-                      TOP {tour.qualify} TEAM WILL QUALIFY FOR NEXT ROUND
-                    </p>
+                    </span>
+                    <br/>
+                    <span style={{ color: 'greenyellow' }}>
+                      TOP {tour?.qualify} TEAM WILL QUALIFY FOR NEXT ROUND
+                    </span>
                   </Typography>
                 </Paper>
               </TimelineContent>
             </TimelineItem>
           )
         }
-        if (tour.isFinal) {
+        if (tour?.isFinal) {
           return (
-            <>
-              {' '}
+            <span  key={i}>
+             
               <TimelineItem>
                 <TimelineSeparator>
                   <p
@@ -206,7 +148,7 @@ export default function TimeLine() {
                       color:'grey'
                     }}
                   >
-                    {tour.qualifiedTeam} FINALIST TEAM
+                    {tour?.qualifiedTeam} FINALIST TEAM
                   </p>
                   <TimelineDot
                     className={Style.timelineDotBg}
@@ -224,7 +166,7 @@ export default function TimeLine() {
                       border: 0,
                     }}
                   >
-                    <span style={{ zIndex: '2' }}>{tour.roundName}</span>
+                    <span style={{ zIndex: '2' }}>{tour?.roundName}</span>
                   </TimelineDot>
 
                   <TimelineConnector className={classes.secondaryTail} />
@@ -253,15 +195,15 @@ export default function TimeLine() {
                   }}
                   className={classes.content}
                 >
-                  <p style={{ margin: '0' }}>
-                    {tour.teamPerGroup} TEAM WILL PLAY {tour.matchPerGroup}{' '}
+                  <span style={{ margin: '0' }}>
+                    {tour?.teamPerGroup} TEAM WILL PLAY {tour?.matchPerGroup}{' '}
                     MATCH TO WIN THE TITLE{' '}
-                    {tour.matchMakingStyle === 'round-robin' &&
+                    {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
                       'IN ROUND ROBIN FORMAT'}
-                  </p>
+                  </span>
                 </Typography>
               </Paper>
-            </>
+            </span>
           )
         }
       })}

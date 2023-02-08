@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 // material
 import { Popover } from '@material-ui/core'
-import { styled ,fade } from '@material-ui/core/styles'
+import { styled ,alpha } from '@material-ui/core/styles'
 
 // ----------------------------------------------------------------------
 
@@ -18,8 +18,8 @@ const ArrowStyle = styled('span')(({ theme }) => ({
     transform: 'rotate(-135deg)',
     background: theme.palette.background.paper,
 
-    borderRight: `solid 1px ${fade(theme.palette.grey[500], 0.12)}`,
-    borderBottom: `solid 1px ${fade(theme.palette.grey[500], 0.12)}`,
+    borderRight: `solid 1px ${alpha(theme.palette.grey[500], 0.12)}`,
+    borderBottom: `solid 1px ${alpha(theme.palette.grey[500], 0.12)}`,
   },
 }))
 

@@ -68,7 +68,6 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip)
 
 const AllTournamentTable = ({ tournaments, handleTournaments, reload }) => {
-  console.log(tournaments)
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)

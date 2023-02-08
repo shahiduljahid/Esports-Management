@@ -29,7 +29,7 @@ const DialogTitle = withStyles(modalStyles)((props) => {
 
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography variant='h4'>{children}</Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -95,7 +95,7 @@ const ColumnsDialog = ({
     >
       <form style={{ marginBottom: 0 }} onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          <h4
+          <span
             style={{
               color: 'black',
               fontWeight: 'bold',
@@ -105,10 +105,10 @@ const ColumnsDialog = ({
             className={classes.title}
           >
             {title ? 'Choose Template' : 'Hide/Show columns'}
-          </h4>
+          </span>
         </DialogTitle>
         <DialogContent dividers>
-          <Typography style={{ color: '#00cfff' }} gutterBottom>
+          <span  style={{ color: '#00cfff' }}>
             <fieldset
               style={{ float: 'left', display: 'flex', flexWrap: 'wrap' }}
             >
@@ -129,7 +129,7 @@ const ColumnsDialog = ({
                 )
               })}
             </fieldset>
-          </Typography>
+          </span>
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" type="submit" color="primary">

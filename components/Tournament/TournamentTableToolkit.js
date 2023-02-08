@@ -230,13 +230,13 @@ const TournamentTableToolkit = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <CustomButton onClick={() => handleNo()} size="small" color="danger">
+          <CustomButton onClick={() => handleNo()} size="sm" color="danger">
             cancel
           </CustomButton>
           <CustomButton
             onClick={() => handleYes()}
             color="info"
-            size="small"
+            size="sm"
             autoFocus
           >
             Yes

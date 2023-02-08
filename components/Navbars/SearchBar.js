@@ -8,7 +8,7 @@ import styles from '../../assets/jss/material-dashboard-react/components/headerL
 import { Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Search from '@material-ui/icons/Search'
-import { styled, fade } from '@material-ui/core/styles'
+import { styled, alpha } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 import {
   Box,
@@ -37,7 +37,7 @@ const SearchbarStyle = styled('div')(({ theme }) => ({
   WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
   padding: theme.spacing(0, 3),
   // boxShadow: theme.customShadows.z8,
-  backgroundColor: `${fade(theme.palette.background.default, 0.72)}`,
+  backgroundColor: `${alpha(theme.palette.background.default, 0.72)}`,
   [theme.breakpoints.up('md')]: {
     height: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
