@@ -23,7 +23,9 @@ import TimeLine from '/components/TimeLine/TimeLine'
 import CreateRoadMapTable from '/components/RoadMap/CreateRoadMapTable'
 import AddTeamNumber from '/components/RoadMap/AddTeamNumber'
 import EditableTimeLine from '/components/TimeLine/EditableTimeLine'
-
+import notificationPopUp from '../../Functions/notificationPopUp'
+import { useSnackbar } from 'notistack'
+import DeleteIcon from '@material-ui/icons/Delete'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -34,77 +36,32 @@ const useStyles = makeStyles((theme) => ({
 
   ...styles,
 }))
-const dummyData = [
-  {
-    roundName: 'ROUND 1',
-    dividedInto: '25',
-    teamPerGroup: '20',
-    matchMakingStyle: 'KNOCKOUT',
-    matchPerGroup: '2',
-    qualify: '10',
-    isFinal: false,
-    qualifiedTeam: '500',
-    invitedTeam: '',
-  },
 
-  {
-    roundName: 'ROUND 2',
-    dividedInto: '14',
-    teamPerGroup: '18',
-    matchMakingStyle: 'KNOCKOUT',
-    matchPerGroup: '2',
-    qualify: '9',
-    isFinal: false,
-    qualifiedTeam: '250',
-    invitedTeam: '',
-  },
-  {
-    roundName: 'GROUP STAGE',
-    dividedInto: '7',
-    teamPerGroup: '18',
-    matchMakingStyle: 'KNOCKOUT',
-    matchPerGroup: '4',
-    qualify: '10',
-    isFinal: false,
-    qualifiedTeam: '126',
-    invitedTeam: '',
-  },
-  {
-    roundName: 'PRE FINAL',
-    dividedInto: '4',
-    teamPerGroup: '8',
-    matchMakingStyle: 'ROUND-ROBIN',
-    matchPerGroup: '12',
-    isFinal: false,
-    qualify: '18',
-    qualifiedTeam: '18',
-    invitedTeam: '',
-  },
-  {
-    roundName: 'FINAL',
-    dividedInto: '',
-    teamPerGroup: '16',
-    matchMakingStyle: 'KNOCKOUT',
-    matchPerGroup: '15',
-    qualify: '',
-    isFinal: true,
-    qualifiedTeam: '18',
-    invitedTeam: '',
-  },
-]
-
+const handleUserTourData = (userId, allTour) => {
+  return allTour.filter((item) => item.creator === userId)
+}
+const handleRoadMapFilter = (array) => {
+  return array.filter((ele) => ele.roadMap.length > 0)
+}
+const handleWithOutRoadMapFilter = (array) => {
+  return array.filter((ele) => ele.roadMap.length === 0)
+}
 const RoadMap = () => {
   const classes = useStyles()
   const { user } = useAuth()
   const [reload, setReload] = useState(false)
   const [tableData, setTableData] = useState([])
-  const [roadMapData, setRoadMapData] = useState(dummyData)
+  const [roadMapData, setRoadMapData] = useState()
+  const [selectedRoadmap, setSelectedRoadMap] = useState()
   const [tournamentId, setTournamentId] = useState()
   const [newRoadMap, setNewRoadMap] = useState([])
   const [teamRemaining, setTeamRemaining] = useState()
   const [saveTourId, setTourId] = useState()
   const [qualifiedTeam, setQualifiedTeam] = useState()
   const [viewTeamAddTable, setViewTeamAddTable] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
+  const itemWithRoadMap = handleRoadMapFilter(tableData)
+  const itemWithOutRoadMap = handleWithOutRoadMapFilter(tableData)
 
   const handleAddNewRound = () => {
     handleAddRoadMapOpen()
@@ -117,11 +74,78 @@ const RoadMap = () => {
   }
 
   const handleRoadMapView = (item) => {
-    handleViewRoadMapOpen(item)
+    if (item?.roadMap?.length) {
+      setSelectedRoadMap(item)
+      setRoadMapData(item.roadMap)
+      handleViewRoadMapOpen(item)
+    }
   }
 
-  const handleSaveRoadMap = () => {
-    console.log(newRoadMap)
+  const handleSaveRoadMap = async () => {
+    let isComplete = false
+    for (let index = 0; index < newRoadMap.length; index++) {
+      const element = newRoadMap[index]
+      if (element.isFinal) {
+        isComplete = true
+      }
+    }
+    if (isComplete) {
+      setReload(true)
+      const tournamentFind = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${tournamentId}`,
+      )
+      const tournament = tournamentFind?.data
+
+      tournament.roadMap = newRoadMap
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentDetails/${tournamentId}`,
+        tournament,
+      )
+      if (res.data) {
+        setTableData(handleUserTourData(user?._id, res.data))
+        notificationPopUp(
+          'Road Map added successfully',
+          'success',
+          enqueueSnackbar,
+        )
+        setNewRoadMap([])
+        setTeamRemaining()
+        setTournamentId()
+        setTourId()
+      }
+      setReload(false)
+
+    } else {
+      handleConfirmOpen()
+    }
+  }
+  const handleRemoveEditingRoadMap=()=>{
+    handleConfirmOpen()
+
+  }
+  const handleDelete = async() => {
+    setReload(true)
+    const tournamentFind = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${selectedRoadmap._id}`,
+    )
+    const tournament = tournamentFind?.data
+
+    tournament.roadMap = []
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentDetails/${selectedRoadmap._id}`,
+      tournament,
+    )
+    if (res.data) {
+      setTableData(handleUserTourData(user?._id, res.data))
+      notificationPopUp(
+        'Road Map Deleted successfully',
+        'success',
+        enqueueSnackbar,
+      )
+   
+    }
+    handleViewRoadMapClose()
+    setReload(false)
   }
 
   //dialogs function
@@ -138,11 +162,12 @@ const RoadMap = () => {
   //handle view RoadMap Table
   const [viewRoadMap, setViewRoadMap] = React.useState(false)
   const handleViewRoadMapOpen = (item) => {
-    console.log(item)
     setViewRoadMap(true)
   }
   const handleViewRoadMapClose = () => {
     setViewRoadMap(false)
+    setSelectedRoadMap()
+    setRoadMapData()
   }
   //handle Add RoadMap Table
   const [addRoadMap, setAddRoadMap] = React.useState(false)
@@ -150,7 +175,6 @@ const RoadMap = () => {
     setAddRoadMap(true)
   }
   const handleAddRoadMapClose = (isAdded, notAdded) => {
-    console.log(isAdded)
     if (!isAdded?.length) {
       setTournamentId()
     } else {
@@ -162,12 +186,35 @@ const RoadMap = () => {
         const lastOne = temp.pop()
         const teamRem =
           parseInt(lastOne.dividedInto) * parseInt(lastOne.qualify)
-     
+
         setTeamRemaining(teamRem)
       }
     }
     setAddRoadMap(false)
   }
+
+  //confirm dialog
+
+  const [confirmOpen, setConfirmOpen] = useState(false)
+
+  const handleConfirmOpen = () => {
+    setConfirmOpen(true)
+  }
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false)
+  }
+  const handleNo = () => {
+    handleConfirmClose()
+  }
+  const handleYes = async () => {
+    setNewRoadMap([])
+    setTeamRemaining()
+    setTournamentId()
+    setTourId()
+    handleConfirmClose()
+  }
+
   useEffect(async () => {
     setReload(true)
     const id = user._id
@@ -181,7 +228,7 @@ const RoadMap = () => {
     <>
       <div className={classes.containerFluid}>
         <AllRoadMapTable
-          tournaments={tableData}
+          tournaments={itemWithRoadMap}
           handleTournaments={handleRoadMapView}
           reload={reload}
         />
@@ -201,14 +248,23 @@ const RoadMap = () => {
         )}
 
         {tournamentId ? (
-          <Button
-            onClick={() => handleSaveRoadMap()}
-            variant="outlined"
-            color="primary"
-            component="span"
-          >
-            Save RoadMap
-          </Button>
+         <div style={{display:'flex'}}> <Button
+         onClick={() => handleSaveRoadMap()}
+         variant="outlined"
+         color="primary"
+         component="span"
+       >
+         Save RoadMap
+       </Button>
+         <Button
+         style={{marginLeft:'10px'}}
+         onClick={() => handleRemoveEditingRoadMap()}
+         variant="outlined"
+         color="secondary"
+         component="span"
+       >
+         Delete RoadMap
+       </Button></div>
         ) : (
           <Button
             onClick={() => handleClickOpen()}
@@ -259,7 +315,7 @@ const RoadMap = () => {
               />
             ) : (
               <AllTournamentTable
-                tournaments={tableData}
+                tournaments={itemWithOutRoadMap}
                 handleTournaments={handleTournamentStart}
                 reload={reload}
               />
@@ -285,7 +341,15 @@ const RoadMap = () => {
             }}
             id="alert-dialog-title"
           >
-            {'Tournament RoadMap'}
+            <span style={{ display: 'flex', justifyContent: 'center' }}>
+              <span style={{ fontSize: '15px' }}>{'Tournament RoadMap'}</span>
+              <span
+                onClick={() => handleDelete()}
+                style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
+              >
+                <DeleteIcon />
+              </span>
+            </span>
           </DialogTitle>
           <DialogContent>
             <TimeLine roadMapData={roadMapData} />
@@ -310,9 +374,9 @@ const RoadMap = () => {
             }}
             id="alert-dialog-title"
           >
-            <span style={{ fontSize: '15px' }}>{'Add RoadMap'} </span>
+            <span style={{ fontSize: '13px' }}>{'Add RoadMap'} </span>
             <span
-              style={{ paddingLeft: '10%', color: 'grey', fontSize: '15px' }}
+              style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
             >
               Team Remaining : {teamRemaining}
             </span>
@@ -333,6 +397,41 @@ const RoadMap = () => {
             >
               Close
             </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={confirmOpen}
+          onClose={handleConfirmClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            style={{ color: '#00cfff', textTransform: 'uppercase' }}
+            id="alert-dialog-title"
+          >
+            {'Do you want to saved unfinished Tournament?'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              style={{ color: 'black', textTransform: 'uppercase' }}
+              id="alert-dialog-description"
+            >
+              There is no final stage in this roadMap . you can not add this
+              roadMap to your tournament . Are you want to leave this roadMap ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <CustomButton onClick={() => handleNo()} size="sm" color="danger">
+              cancel
+            </CustomButton>
+            <CustomButton
+              onClick={() => handleYes()}
+              color="info"
+              size="sm"
+              autoFocus
+            >
+              Yes
+            </CustomButton>
           </DialogActions>
         </Dialog>
       </div>

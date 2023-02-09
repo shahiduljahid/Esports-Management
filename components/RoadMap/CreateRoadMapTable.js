@@ -59,9 +59,17 @@ const normalRoundTextFields = [
   },
   {
     label: 'INVITED TEAM',
-    placeHolder: 'INVITED TEAM NEXT ROUND',
+    placeHolder: 'NUMBER OF INVITED TEAM',
     type: 'number',
     name: 'invitedTeam',
+    defaultValue: '',
+    isRequired: false,
+  },
+  {
+    label: 'MATCH MAKING STYLE',
+    placeHolder: '',
+    type: 'dropDown',
+    name: 'matchMakingStyle',
     defaultValue: '',
     isRequired: false,
   },
@@ -81,14 +89,7 @@ const normalRoundTextFields = [
     defaultValue: '',
     isRequired: true,
   },
-  {
-    label: 'MATCH MAKING STYLE',
-    placeHolder: '',
-    type: 'dropDown',
-    name: 'matchMakingStyle',
-    defaultValue: '',
-    isRequired: false,
-  },
+
   {
     label: 'QUALIFY NEXT ROUND',
     placeHolder: 'TEAM QUALIFY NEXT ROUND',
@@ -104,7 +105,7 @@ const finalRoundTextFields = [
     placeHolder: 'FINAL',
     type: 'text',
     name: 'roundName',
-    defaultValue: '',
+    defaultValue: 'FINAL',
     isRequired: true,
   },
 
@@ -140,11 +141,15 @@ const CreateRoadMapTable = ({
   const [isFinal, setIsFinal] = useState()
   const { enqueueSnackbar } = useSnackbar()
   const [qualifiedTeam, setQualifiedTeam] = useState(teamRemaining)
+  const [invitedTeam, setInvitedTeam] = useState()
   const [divideInto, setDivideInto] = useState()
   const handleUpdatedForm = (e, name) => {
     if (name === 'teamPerGroup') {
       const totalTeam = parseInt(teamRemaining)
-      if (parseInt(e.target.value) > 0 && parseInt(e.target.value) < totalTeam) {
+      if (
+        parseInt(e.target.value) > 0 &&
+        parseInt(e.target.value) < totalTeam
+      ) {
         const res = totalTeam / parseInt(e.target.value)
 
         setDivideInto(Math.round(res))
@@ -153,23 +158,50 @@ const CreateRoadMapTable = ({
       }
     }
     if (name === 'invitedTeam') {
-      if (parseInt(e.target.value) >= 0) {
+      if (parseInt(e.target.value) > 0) {
         const newNumber = parseInt(qualifiedTeam) + parseInt(e.target.value)
+        setInvitedTeam(parseInt(e.target.value))
         setTeamRemaining(newNumber)
+        if (newNumber > 20) {
+          setIsFinal(false)
+        }
       } else {
+        setInvitedTeam()
         setTeamRemaining(qualifiedTeam)
       }
     }
   }
 
+  const handleMinInputRange = (name) => {
+    if (name === 'teamPerGroup') {
+      if (matchMakingStyle === 'KNOCKOUT') {
+        return 13
+      } else {
+        return 7
+      }
+    } else if (name === 'matchPerGroup') {
+      return 1
+    } else {
+      return 0
+    }
+  }
+  const handleMaxInputRange = (name) => {
+    if (name === 'teamPerGroup') {
+      if (matchMakingStyle === 'KNOCKOUT') {
+        return 20
+      } else {
+        return 10
+      }
+    } else {
+      return 1000
+    }
+  }
 
   const handleMatchMakingStyle = (e) => {
-    console.log(e.target.value)
     setMatchMakingStyle(e.target.value)
   }
 
   const handleIsFinal = (e) => {
-    console.log(e.target.checked)
     setIsFinal(e.target.checked)
   }
   const {
@@ -195,6 +227,12 @@ const CreateRoadMapTable = ({
         isSubmittable = false
         alertMessage =
           'you can not make round with more than 20 team in a single group'
+      } else {
+        if (teamCount < 12) {
+          isSubmittable = false
+          alertMessage =
+            'you can not make lobby with less than 13 team in a single group'
+        }
       }
     } else {
       if (matchMakingStyle === 'KNOCKOUT') {
@@ -204,11 +242,21 @@ const CreateRoadMapTable = ({
         if (parseInt(data.teamPerGroup) > parseInt(teamRemaining)) {
           isSubmittable = false
           alertMessage = `INVALID TEAM IN PER GROUP`
-        }
-
-        else if (isTeamLeftOut > 0) {
+        } else if (isTeamLeftOut > 0) {
           isSubmittable = false
           alertMessage = `${isTeamLeftOut} TEAM WILL BE LEFT ! ADD MORE TEAM IN PER GROUP`
+        } else if (
+          parseInt(teamRemaining) % parseInt(data.teamPerGroup) < 13 &&
+          parseInt(teamRemaining) % parseInt(data.teamPerGroup) !== 0
+        ) {
+          console.log(parseInt(teamRemaining) % parseInt(data.teamPerGroup))
+          isSubmittable = false
+          alertMessage =
+            'you can not make lobby with less than 13 team in a single group'
+        } else if (parseInt(data.teamPerGroup) > 20) {
+          isSubmittable = false
+          alertMessage =
+            'you can not make lobby with more than 20 team in a single group'
         }
       } else {
         const isSameTeamPerGroup =
@@ -221,18 +269,16 @@ const CreateRoadMapTable = ({
           isSubmittable = false
           alertMessage = `YOU HAVE ${dividedInto} GROUP . NEED MORE THAN 2  GROUP IN ROUND ROBIN FORMAT`
         }
-        console.log(Math.round(dividedInto))
       }
     }
 
     if (isSubmittable) {
-
+      console.log(data)
       data.dividedInto = Math.round(dividedInto)
       data.roundName = data.roundName.toUpperCase()
       data.matchMakingStyle = matchMakingStyle
-      data.qualifiedTeam=qualifiedTeam
+      data.qualifiedTeam =  qualifiedTeam
       data.isFinal = isFinal ? true : false
-      console.log(data)
       const updateRoadMap = [...newRoadMap, data]
       if (matchMakingStyle === 'KNOCKOUT') {
         setTeamRemaining(data.qualify * Math.round(dividedInto))
@@ -343,13 +389,13 @@ const CreateRoadMapTable = ({
                         defaultValue={textField.defaultValue}
                         inputProps={{
                           style: { textTransform: 'uppercase' },
+                          min: handleMinInputRange(textField.name),
+                          max: handleMaxInputRange(textField.name),
                         }}
                         {...register(textField.name, {
                           required: textField.isRequired,
                         })}
-                        onBlur={(e) =>
-                          handleUpdatedForm(e, textField.name)
-                        }
+                        onChange={(e) => handleUpdatedForm(e, textField.name)}
                       ></TextField>
                       <FormHelperText style={{ marginBottom: '20px' }}>
                         {textField.name === 'teamPerGroup' ? (
@@ -359,10 +405,22 @@ const CreateRoadMapTable = ({
                               color: '#ffc107',
                               fontWeight: '700',
                             }}
-                          >{
-                              divideInto && `DIVIDED INTO ${divideInto} GROUP`
-                            }
-
+                          >
+                            {divideInto && `DIVIDED INTO ${divideInto} GROUP`}
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                        {textField.name === 'invitedTeam' ? (
+                          <span
+                            style={{
+                              fontSize: '12px',
+                              color: '#ffc107',
+                              fontWeight: '700',
+                            }}
+                          >
+                            {invitedTeam &&
+                              `${qualifiedTeam} QUALIFIED TEAM + ${invitedTeam} INVITED TEAM`}
                           </span>
                         ) : (
                           ''
@@ -456,14 +514,30 @@ const CreateRoadMapTable = ({
                         defaultValue={textField.defaultValue}
                         inputProps={{
                           style: { textTransform: 'uppercase' },
+                          min: handleMinInputRange(textField.name),
+                          max: handleMaxInputRange(textField.name),
                         }}
                         {...register(textField.name, {
                           required: textField.isRequired,
                         })}
-                        onBlur={(e) =>
-                          handleUpdatedForm(e, textField.name)
-                        }
+                        onChange={(e) => handleUpdatedForm(e, textField.name)}
                       ></TextField>
+                      <FormHelperText style={{ marginBottom: '20px' }}>
+                        {textField.name === 'invitedTeam' ? (
+                          <span
+                            style={{
+                              fontSize: '12px',
+                              color: '#ffc107',
+                              fontWeight: '700',
+                            }}
+                          >
+                            {invitedTeam &&
+                              `${qualifiedTeam} QUALIFIED TEAM + ${invitedTeam} INVITED TEAM`}
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </FormHelperText>
                     </GridItem>
                   )
                 }

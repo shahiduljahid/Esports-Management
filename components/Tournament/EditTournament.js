@@ -106,7 +106,7 @@ const EditTournament = ({ setTableData, tournament, handleClose ,setSelected }) 
     data.orgLogo = orgLogo ? orgLogo : ''
     data.tourLogo = tourLogo ? tourLogo : ''
     console.log(data)
-    const res = await axios.patch(
+     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentDetails/${tournament._id}`,
       data,
     )

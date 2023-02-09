@@ -12,6 +12,7 @@ import FastfoodIcon from '@material-ui/icons/Fastfood'
 import LaptopMacIcon from '@material-ui/icons/LaptopMac'
 import HotelIcon from '@material-ui/icons/Hotel'
 import RepeatIcon from '@material-ui/icons/Repeat'
+import AddBoxIcon from '@material-ui/icons/AddBox'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Style from './timeLine.module.css'
@@ -32,18 +33,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function EditableTimeLine({ roadMapData, handleAddNewRound }) {
+  console.log(roadMapData)
   const classes = useStyles()
   let viewAddBtn = true
   const handleShowAddBtn = () => {
-  
-roadMapData.map((rd) => {
-   
-   if( rd.isFinal === true){
-    viewAddBtn=false
-   }
-  })
-  console.log(viewAddBtn)
-    
+    roadMapData.map((rd) => {
+      if (rd.isFinal === true) {
+        viewAddBtn = false
+      }
+    })
   }
   handleShowAddBtn()
   return (
@@ -163,7 +161,8 @@ roadMapData.map((rd) => {
                         color: 'grey',
                       }}
                     >
-                      {tour?.qualifiedTeam} FINALIST TEAM
+                       {parseInt(tour?.qualifiedTeam) +
+                        parseInt(tour?.invitedTeam)}{' '} FINALIST TEAM
                     </p>
                     <TimelineDot
                       className={Style.timelineDotBg}
@@ -211,8 +210,10 @@ roadMapData.map((rd) => {
                     className={classes.content}
                   >
                     <span style={{ margin: '0' }}>
-                      {tour?.teamPerGroup} TEAM WILL PLAY {tour?.matchPerGroup}{' '}
-                      MATCH TO WIN THE TITLE{' '}
+                      {parseInt(tour?.qualifiedTeam) +
+                        parseInt(tour?.invitedTeam)}{' '}
+                      TEAM WILL PLAY {tour?.matchPerGroup} MATCH TO WIN THE
+                      TITLE
                       {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
                         'IN ROUND ROBIN FORMAT'}
                     </span>
@@ -222,17 +223,20 @@ roadMapData.map((rd) => {
             )
           }
         })}
-        {
-            viewAddBtn? <Button
-          onClick={() => handleAddNewRound()}
-          variant="outlined"
-          color="primary"
-          component="span"
-        >
-          ADD NEW ROUND
-        </Button>:<></>
-        }
-       
+        {viewAddBtn ? (
+          <Button
+            style={{ marginTop: '20px' }}
+            onClick={() => handleAddNewRound()}
+            variant="outlined"
+            color="primary"
+            component="span"
+            startIcon={<AddBoxIcon />}
+          >
+            ADD NEW ROUND
+          </Button>
+        ) : (
+          <></>
+        )}
       </Timeline>
     </>
   )

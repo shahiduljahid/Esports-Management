@@ -343,7 +343,7 @@ const AllRoadMapTable = ({ tournaments, handleTournaments, reload }) => {
               }}
               className={classes.title}
             >
-              No Tournaments available
+              No RoadMap available
             </h4>
           )}
         </TableContainer>

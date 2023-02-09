@@ -30,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export default function TimeLine({roadMapData}) {
- 
+export default function TimeLine({ roadMapData }) {
   const classes = useStyles()
 
   return (
@@ -42,32 +41,33 @@ export default function TimeLine({roadMapData}) {
           return (
             <TimelineItem key={i} style={{ width: '100%' }}>
               <TimelineOppositeContent
-              className={Style.oppositeContent}
+                className={Style.oppositeContent}
                 style={{
                   display: 'flex',
-               
+
                   justifyContent: `${i % 2 === 0 ? 'right' : 'left'}`,
                   paddingTop: '30px',
                 }}
               >
-                <Typography  style={{
-                      fontFamily: "'Rajdhani', sans-serif",
-                      fontWeight: '800',
-                      fontSize: '15px',
-                      marginBottom: '0',
-                      marginTop: '5px',
-                      textAlign: 'center',
-                    }} color="textSecondary">
+                <Typography
+                  style={{
+                    fontFamily: "'Rajdhani', sans-serif",
+                    fontWeight: '800',
+                    fontSize: '15px',
+                    marginBottom: '0',
+                    marginTop: '5px',
+                    textAlign: 'center',
+                  }}
+                  color="textSecondary"
+                >
                   {' '}
-                 
-                    {i === 0
-                      ? `TOTAL ${tour?.qualifiedTeam} TEAM`
-                      : ` QUALIFIED ${tour?.qualifiedTeam} ${
-                          tour?.invitedTeam
-                            ? `+ ${tour?.invitedTeam}  INVITED`
-                            : ''
-                        } TEAM`}
-                
+                  {i === 0
+                    ? `TOTAL ${tour?.qualifiedTeam} TEAM`
+                    : ` QUALIFIED ${tour?.qualifiedTeam} ${
+                        tour?.invitedTeam
+                          ? `+ ${tour?.invitedTeam}  INVITED`
+                          : ''
+                      } TEAM`}
                 </Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>
@@ -121,7 +121,7 @@ export default function TimeLine({roadMapData}) {
                       {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
                         'IN ROUND ROBIN FORMAT'}
                     </span>
-                    <br/>
+                    <br />
                     <span style={{ color: 'greenyellow' }}>
                       TOP {tour?.qualify} TEAM WILL QUALIFY FOR NEXT ROUND
                     </span>
@@ -133,8 +133,7 @@ export default function TimeLine({roadMapData}) {
         }
         if (tour?.isFinal) {
           return (
-            <span  key={i}>
-             
+            <span key={i}>
               <TimelineItem>
                 <TimelineSeparator>
                   <p
@@ -145,10 +144,12 @@ export default function TimeLine({roadMapData}) {
                       marginBottom: '0',
                       marginTop: '5px',
                       textAlign: 'center',
-                      color:'grey'
+                      color: 'grey',
                     }}
                   >
-                    {tour?.qualifiedTeam} FINALIST TEAM
+                    {parseInt(tour?.qualifiedTeam) +
+                      parseInt(tour?.invitedTeam)}{' '}
+                    FINALIST TEAM
                   </p>
                   <TimelineDot
                     className={Style.timelineDotBg}
@@ -196,8 +197,9 @@ export default function TimeLine({roadMapData}) {
                   className={classes.content}
                 >
                   <span style={{ margin: '0' }}>
-                    {tour?.teamPerGroup} TEAM WILL PLAY {tour?.matchPerGroup}{' '}
-                    MATCH TO WIN THE TITLE{' '}
+                    {parseInt(tour?.qualifiedTeam) +
+                      parseInt(tour?.invitedTeam)}{' '}
+                    TEAM WILL PLAY {tour?.matchPerGroup} MATCH TO WIN THE TITLE
                     {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
                       'IN ROUND ROBIN FORMAT'}
                   </span>
