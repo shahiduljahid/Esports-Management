@@ -164,6 +164,13 @@ const CreateRoadMapTable = ({
         setTeamRemaining(newNumber)
         if (newNumber > 20) {
           setIsFinal(false)
+          setInvitedTeam()
+          setTeamRemaining(qualifiedTeam)
+          notificationPopUp(
+            `you can not make final stage with more than 20 team in a lobby`,
+            'warning',
+            enqueueSnackbar,
+          )
         }
       } else {
         setInvitedTeam()
@@ -249,7 +256,6 @@ const CreateRoadMapTable = ({
           parseInt(teamRemaining) % parseInt(data.teamPerGroup) < 13 &&
           parseInt(teamRemaining) % parseInt(data.teamPerGroup) !== 0
         ) {
-     
           isSubmittable = false
           alertMessage =
             'you can not make lobby with less than 13 team in a single group'
@@ -268,12 +274,10 @@ const CreateRoadMapTable = ({
         } else if (Math.round(dividedInto) <= 2) {
           isSubmittable = false
           alertMessage = `YOU HAVE ${dividedInto} GROUP . NEED MORE THAN 2  GROUP IN ROUND ROBIN FORMAT`
-        }
-        else if (
-          parseInt(teamRemaining) % (parseInt(data.teamPerGroup)*2) < 13 &&
-          parseInt(teamRemaining) % (parseInt(data.teamPerGroup)*2) !== 0
+        } else if (
+          parseInt(teamRemaining) % (parseInt(data.teamPerGroup) * 2) < 13 &&
+          parseInt(teamRemaining) % (parseInt(data.teamPerGroup) * 2) !== 0
         ) {
-     
           isSubmittable = false
           alertMessage =
             'you can not make lobby with less than 13 team in a single group'
@@ -283,10 +287,10 @@ const CreateRoadMapTable = ({
 
     if (isSubmittable) {
       console.log(data)
-      data.dividedInto = dividedInto? Math.round(dividedInto):''
+      data.dividedInto = dividedInto ? Math.round(dividedInto) : ''
       data.roundName = data.roundName.toUpperCase()
       data.matchMakingStyle = matchMakingStyle
-      data.qualifiedTeam =  qualifiedTeam
+      data.qualifiedTeam = qualifiedTeam
       data.isFinal = isFinal ? true : false
       const updateRoadMap = [...newRoadMap, data]
       if (matchMakingStyle === 'KNOCKOUT') {
