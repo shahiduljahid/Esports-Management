@@ -114,16 +114,15 @@ const RoadMap = () => {
         setTourId()
       }
       setReload(false)
-
     } else {
       handleConfirmOpen()
     }
   }
-  const handleRemoveEditingRoadMap=()=>{
+  const handleRemoveEditingRoadMap = () => {
     handleConfirmOpen()
-
   }
-  const handleDelete = async() => {
+  const handleDelete = async () => {
+    handleViewRoadMapClose()
     setReload(true)
     const tournamentFind = await axios.get(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${selectedRoadmap._id}`,
@@ -142,7 +141,6 @@ const RoadMap = () => {
         'success',
         enqueueSnackbar,
       )
-   
     }
     handleViewRoadMapClose()
     setReload(false)
@@ -152,12 +150,12 @@ const RoadMap = () => {
 
   //handle Choose tour table
 
-  const [open, setOpen] = React.useState(false)
+  const [chooseTourTableOpen, setChooseTourTableOpen] = React.useState(false)
   const handleClickOpen = () => {
-    setOpen(true)
+    setChooseTourTableOpen(true)
   }
   const handleClose = () => {
-    setOpen(false)
+    setChooseTourTableOpen(false)
   }
   //handle view RoadMap Table
   const [viewRoadMap, setViewRoadMap] = React.useState(false)
@@ -215,6 +213,38 @@ const RoadMap = () => {
     handleConfirmClose()
   }
 
+  //confirm Delete
+
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false)
+
+  const handleConfirmDeleteOpen = () => {
+    setConfirmDeleteOpen(true)
+  }
+
+  const handleConfirmDeleteClose = () => {
+    setConfirmDeleteOpen(false)
+  }
+  const handleConfirmDeleteNo = () => {
+    handleConfirmDeleteClose()
+  }
+  const handleConfirmDeleteYes = async () => {
+    handleDelete()
+    handleConfirmDeleteClose()
+  }
+  //dialog helpers
+  const [open, setOpen] = React.useState(false)
+  const [scroll, setScroll] = React.useState('paper')
+
+  const descriptionElementRef = React.useRef(null)
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef
+      if (descriptionElement !== null) {
+        descriptionElement.focus()
+      }
+    }
+  }, [open])
+
   useEffect(async () => {
     setReload(true)
     const id = user._id
@@ -248,23 +278,26 @@ const RoadMap = () => {
         )}
 
         {tournamentId ? (
-         <div style={{display:'flex'}}> <Button
-         onClick={() => handleSaveRoadMap()}
-         variant="outlined"
-         color="primary"
-         component="span"
-       >
-         Save RoadMap
-       </Button>
-         <Button
-         style={{marginLeft:'10px'}}
-         onClick={() => handleRemoveEditingRoadMap()}
-         variant="outlined"
-         color="secondary"
-         component="span"
-       >
-         Delete RoadMap
-       </Button></div>
+          <div style={{ display: 'flex' }}>
+            {' '}
+            <Button
+              onClick={() => handleSaveRoadMap()}
+              variant="outlined"
+              color="primary"
+              component="span"
+            >
+              Save RoadMap
+            </Button>
+            <Button
+              style={{ marginLeft: '10px' }}
+              onClick={() => handleRemoveEditingRoadMap()}
+              variant="outlined"
+              color="secondary"
+              component="span"
+            >
+              Delete RoadMap
+            </Button>
+          </div>
         ) : (
           <Button
             onClick={() => handleClickOpen()}
@@ -290,7 +323,7 @@ const RoadMap = () => {
         ></GridContainer>
 
         <Dialog
-          open={open}
+          open={chooseTourTableOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -344,7 +377,7 @@ const RoadMap = () => {
             <span style={{ display: 'flex', justifyContent: 'center' }}>
               <span style={{ fontSize: '15px' }}>{'Tournament RoadMap'}</span>
               <span
-                onClick={() => handleDelete()}
+                onClick={() => handleConfirmDeleteOpen()}
                 style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
               >
                 <DeleteIcon />
@@ -360,7 +393,7 @@ const RoadMap = () => {
             </Button>
           </DialogActions>
         </Dialog>
-        <Dialog
+        {/* <Dialog
           open={addRoadMap}
           onClose={handleAddRoadMapClose}
           aria-labelledby="alert-dialog-title"
@@ -398,7 +431,7 @@ const RoadMap = () => {
               Close
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
         <Dialog
           open={confirmOpen}
           onClose={handleConfirmClose}
@@ -432,6 +465,96 @@ const RoadMap = () => {
             >
               Yes
             </CustomButton>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={confirmDeleteOpen}
+          onClose={handleConfirmDeleteClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            style={{ color: '#00cfff', textTransform: 'uppercase' }}
+            id="alert-dialog-title"
+          >
+            {'Do you want to Delete this roadMap?'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              style={{ color: 'black', textTransform: 'uppercase' }}
+              id="alert-dialog-description"
+            >
+              if you delete this roadmap . the tournaments details related to
+              this roadmap will be deleted . Are you sure to delete this roadmap
+              ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <CustomButton
+              onClick={() => handleConfirmDeleteNo()}
+              size="sm"
+              color="danger"
+            >
+              cancel
+            </CustomButton>
+            <CustomButton
+              onClick={() => handleConfirmDeleteYes()}
+              color="info"
+              size="sm"
+              autoFocus
+            >
+              Yes
+            </CustomButton>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={addRoadMap}
+          onClose={handleAddRoadMapClose}
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+        >
+          <DialogTitle style={{ textAlign: 'center' }} id="scroll-dialog-title">
+            {' '}
+            <span
+              style={{
+                color: '#00cfff',
+                textTransform: 'uppercase',
+                fontSize: '13px',
+              }}
+            >
+              {'Add RoadMap'}{' '}
+            </span>
+            <span
+              style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
+            >
+              Team Remaining : {teamRemaining}
+            </span>
+          </DialogTitle>
+
+          <DialogContent dividers={scroll === 'paper'}>
+            <DialogContentText
+              id="scroll-dialog-description"
+              ref={descriptionElementRef}
+              tabIndex={-1}
+            >
+              <CreateRoadMapTable
+                teamRemaining={teamRemaining}
+                setTeamRemaining={setTeamRemaining}
+                handleAddRoadMapClose={handleAddRoadMapClose}
+                newRoadMap={newRoadMap}
+                setNewRoadMap={setNewRoadMap}
+              />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            {' '}
+            <Button
+              onClick={() => handleAddRoadMapClose(newRoadMap, true)}
+              color="primary"
+            >
+              Close
+            </Button>
           </DialogActions>
         </Dialog>
       </div>

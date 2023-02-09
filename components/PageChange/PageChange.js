@@ -1,57 +1,82 @@
-import React from 'react'
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
-// @material-ui/core components
-import { makeStyles } from '@material-ui/core/styles'
-import CircularProgress from '@material-ui/core/CircularProgress'
-
-// core components
-import { infoColor, title } from '/styles/jss/nextjs-material-kit.js'
-import Image from 'next/image'
-
-const useStyles = makeStyles({
-  progress: {
-    color: infoColor,
-    width: '6rem !important',
-    height: '6rem !important',
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+    // "& .MuiLinearProgress-colorPrimary": {
+    //   backgroundColor: "red",
+    // },
+    "& .MuiLinearProgress-barColorPrimary": {
+      backgroundColor: "#00cfff",
+    },
   },
-  wrapperDiv: {
-    margin: '100px auto',
-    padding: '0px',
-    maxWidth: '360px',
-    textAlign: 'center',
-    position: 'relative',
-    zIndex: '9999',
-    top: '0',
-  },
-  iconWrapper: {
-    display: 'block',
-  },
-  title: {
-    ...title,
-    color: '#FFFFFF',
-  },
-})
+}));
 
 export default function PageChange(props) {
-  const classes = useStyles()
+  const classes = useStyles();
+
   return (
-    <div>
-      
-        {/* <div
-          style={{
-            width: '100%',
-            height: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#190e1f',
-          }}
-        >
-          <div>
-            <Image src={'/img/assets/preloader.gif'} height={300} width={200} />
-          </div>
-        </div> */}
-     
+    <div className={classes.root}>
+      <LinearProgress style={{ height: 6 }} />
     </div>
-  )
+  );
 }
+
+//another style of loader
+
+// import React from "react";
+// import { makeStyles } from "@material-ui/core/styles";
+// import LinearProgress from "@material-ui/core/LinearProgress";
+
+// const useStyles = makeStyles({
+//   root: {
+//     width: "100%",
+//     height: 30,
+//   },
+// });
+// export default function PageChange(props) {
+//   const classes = useStyles();
+//   const [progress, setProgress] = React.useState(0);
+//   const [buffer, setBuffer] = React.useState(10);
+
+//   const progressRef = React.useRef(() => {});
+//   React.useEffect(() => {
+//     progressRef.current = () => {
+//       if (progress > 100) {
+//         setProgress(0);
+//         setBuffer(10);
+//       } else {
+//         const diff = Math.random() * 20;
+//         const diff2 = Math.random() * 20;
+//         setProgress(progress + diff);
+//         setBuffer(progress + diff + diff2);
+//       }
+//     };
+//   });
+
+//   React.useEffect(() => {
+//     const timer = setInterval(() => {
+//       progressRef.current();
+//     }, 500);
+
+//     return () => {
+//       clearInterval(timer);
+//     };
+//   }, []);
+
+//   return (
+//     <div className={classes.root}>
+//       <LinearProgress
+//         style={{ height: 10 }}
+//         variant="buffer"
+//         value={progress}
+//         valueBuffer={buffer}
+//       />
+//     </div>
+//   );
+// }

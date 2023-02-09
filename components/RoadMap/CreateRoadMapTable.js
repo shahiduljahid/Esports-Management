@@ -249,7 +249,7 @@ const CreateRoadMapTable = ({
           parseInt(teamRemaining) % parseInt(data.teamPerGroup) < 13 &&
           parseInt(teamRemaining) % parseInt(data.teamPerGroup) !== 0
         ) {
-          console.log(parseInt(teamRemaining) % parseInt(data.teamPerGroup))
+     
           isSubmittable = false
           alertMessage =
             'you can not make lobby with less than 13 team in a single group'
@@ -269,12 +269,21 @@ const CreateRoadMapTable = ({
           isSubmittable = false
           alertMessage = `YOU HAVE ${dividedInto} GROUP . NEED MORE THAN 2  GROUP IN ROUND ROBIN FORMAT`
         }
+        else if (
+          parseInt(teamRemaining) % (parseInt(data.teamPerGroup)*2) < 13 &&
+          parseInt(teamRemaining) % (parseInt(data.teamPerGroup)*2) !== 0
+        ) {
+     
+          isSubmittable = false
+          alertMessage =
+            'you can not make lobby with less than 13 team in a single group'
+        }
       }
     }
 
     if (isSubmittable) {
       console.log(data)
-      data.dividedInto = Math.round(dividedInto)
+      data.dividedInto = dividedInto? Math.round(dividedInto):''
       data.roundName = data.roundName.toUpperCase()
       data.matchMakingStyle = matchMakingStyle
       data.qualifiedTeam =  qualifiedTeam
@@ -546,7 +555,7 @@ const CreateRoadMapTable = ({
           )}
         </GridContainer>
         <CustomButton style={{ marginTop: '50px' }} type="submit" color="info">
-          ADD ROUND
+          ADD TOURNAMENT ROUND
         </CustomButton>
       </form>
     </>

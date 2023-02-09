@@ -106,6 +106,7 @@ const TournamentTableToolkit = (props) => {
   return (
     <>
       <Toolbar
+      style={{marginBottom:'10px'}}
         className={clsx(classes.root, {
           [classes.highlight]: numSelected > 0,
         })}

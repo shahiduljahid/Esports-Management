@@ -161,8 +161,12 @@ export default function EditableTimeLine({ roadMapData, handleAddNewRound }) {
                         color: 'grey',
                       }}
                     >
-                       {parseInt(tour?.qualifiedTeam) +
-                        parseInt(tour?.invitedTeam)}{' '} FINALIST TEAM
+                       {tour?.qualifiedTeam
+                        ? parseInt(tour?.qualifiedTeam)
+                        : 0 + tour?.invitedTeam
+                        ? parseInt(tour?.invitedTeam)
+                        : 0}{' '}
+                      FINALIST TEAM
                     </p>
                     <TimelineDot
                       className={Style.timelineDotBg}
@@ -210,8 +214,11 @@ export default function EditableTimeLine({ roadMapData, handleAddNewRound }) {
                     className={classes.content}
                   >
                     <span style={{ margin: '0' }}>
-                      {parseInt(tour?.qualifiedTeam) +
-                        parseInt(tour?.invitedTeam)}{' '}
+                      {tour?.qualifiedTeam
+                        ? parseInt(tour?.qualifiedTeam)
+                        : 0 + tour?.invitedTeam
+                        ? parseInt(tour?.invitedTeam)
+                        : 0}{' '}
                       TEAM WILL PLAY {tour?.matchPerGroup} MATCH TO WIN THE
                       TITLE
                       {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
