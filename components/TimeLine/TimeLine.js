@@ -14,6 +14,7 @@ import RepeatIcon from '@material-ui/icons/Repeat'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Style from './timeLine.module.css'
+import GridContainer from '/components/Grid/GridContainer.js'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,109 +35,26 @@ export default function TimeLine({ roadMapData }) {
   const classes = useStyles()
 
   return (
-    <Timeline style={{ padding: '0', alignItems: 'center' }} align="alternate">
-      {roadMapData?.map((tour, i) => {
-        console.log(i / 2)
-        if (!tour?.isFinal) {
-          return (
-            <TimelineItem key={i} style={{ width: '100%' }}>
-              <TimelineOppositeContent
-                className={Style.oppositeContent}
-                style={{
-                  display: 'flex',
+    <GridContainer style={{ margin: 0 }}>
+      <Timeline
+        style={{ padding: '0', alignItems: 'center' }}
+        align="alternate"
+      >
+        {roadMapData?.map((tour, i) => {
+          console.log(i / 2)
+          if (!tour?.isFinal) {
+            return (
+              <TimelineItem key={i} style={{ width: '100%' }}>
+                <TimelineOppositeContent
+                  className={Style.oppositeContent}
+                  style={{
+                    display: 'flex',
 
-                  justifyContent: `${i % 2 === 0 ? 'right' : 'left'}`,
-                  paddingTop: '30px',
-                }}
-              >
-                <Typography
-                  style={{
-                    fontFamily: "'Rajdhani', sans-serif",
-                    fontWeight: '800',
-                    fontSize: '15px',
-                    marginBottom: '0',
-                    marginTop: '5px',
-                    textAlign: 'center',
-                  }}
-                  color="textSecondary"
-                >
-                  {' '}
-                  {i === 0
-                    ? `TOTAL ${tour?.qualifiedTeam} TEAM`
-                    : ` QUALIFIED ${tour?.qualifiedTeam} ${
-                        tour?.invitedTeam
-                          ? `+ ${tour?.invitedTeam}  INVITED`
-                          : ''
-                      } TEAM`}
-                </Typography>
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineDot
-                  className={Style.timelineDotBg}
-                  style={{
-                    backgroundImage: `url("/img/assets/images.png")`,
-                    backgroundSize: 'cover',
-                    padding: '15px',
-                    textAlign: 'center',
-                    fontWeight: '700',
-                    fontFamily: "'Rajdhani', sans-serif",
-                    width: '95px',
-                    height: '95px',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: 0,
+                    justifyContent: `${i % 2 === 0 ? 'right' : 'left'}`,
+                    paddingTop: '30px',
                   }}
                 >
-                  <span style={{ zIndex: '2' }}> {tour?.roundName}</span>
-                </TimelineDot>
-
-                {i === roadMapData?.length - 1 ? (
-                  <></>
-                ) : (
-                  <TimelineConnector className={classes.secondaryTail} />
-                )}
-              </TimelineSeparator>
-              <TimelineContent style={{ padding: '6px 16px' }}>
-                <Paper
-                  style={{
-                    backgroundImage: `url("/img/assets/contact-titleBg.jpg")`,
-                    backgroundSize: 'cover',
-                  }}
-                  elevation={3}
-                  className={classes.paper}
-                >
-                  {' '}
                   <Typography
-                    style={{
-                      fontFamily: "'Rajdhani', sans-serif",
-                      fontWeight: '800',
-                    }}
-                    className={classes.content}
-                  >
-                    <span>
-                      {' '}
-                      DIVIDED INTO {tour?.dividedInto} GROUP <br />
-                      {tour?.teamPerGroup} TEAM PER GROUP <br />
-                      {tour?.matchPerGroup} MATCH EACH GROUP{' '}
-                      {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
-                        'IN ROUND ROBIN FORMAT'}
-                    </span>
-                    <br />
-                    <span style={{ color: 'greenyellow' }}>
-                      TOP {tour?.qualify} TEAM WILL QUALIFY FOR NEXT ROUND
-                    </span>
-                  </Typography>
-                </Paper>
-              </TimelineContent>
-            </TimelineItem>
-          )
-        }
-        if (tour?.isFinal) {
-          return (
-            <span key={i}>
-              <TimelineItem>
-                <TimelineSeparator>
-                  <p
                     style={{
                       fontFamily: "'Rajdhani', sans-serif",
                       fontWeight: '800',
@@ -144,16 +62,20 @@ export default function TimeLine({ roadMapData }) {
                       marginBottom: '0',
                       marginTop: '5px',
                       textAlign: 'center',
-                      color: 'grey',
                     }}
+                    color="textSecondary"
                   >
-                    {tour?.qualifiedTeam
-                        ? parseInt(tour?.qualifiedTeam)
-                        : 0 + tour?.invitedTeam
-                        ? parseInt(tour?.invitedTeam)
-                        : 0}{' '}
-                    FINALIST TEAM
-                  </p>
+                    {' '}
+                    {i === 0
+                      ? `TOTAL ${tour?.qualifiedTeam} TEAM`
+                      : ` QUALIFIED ${tour?.qualifiedTeam} ${
+                          tour?.invitedTeam
+                            ? `+ ${tour?.invitedTeam}  INVITED`
+                            : ''
+                        } TEAM`}
+                  </Typography>
+                </TimelineOppositeContent>
+                <TimelineSeparator>
                   <TimelineDot
                     className={Style.timelineDotBg}
                     style={{
@@ -170,51 +92,136 @@ export default function TimeLine({ roadMapData }) {
                       border: 0,
                     }}
                   >
-                    <span style={{ zIndex: '2' }}>{tour?.roundName}</span>
+                    <span style={{ zIndex: '2' }}> {tour?.roundName}</span>
                   </TimelineDot>
 
-                  <TimelineConnector className={classes.secondaryTail} />
+                  {i === roadMapData?.length - 1 ? (
+                    <></>
+                  ) : (
+                    <TimelineConnector className={classes.secondaryTail} />
+                  )}
                 </TimelineSeparator>
-                <TimelineContent
-                  style={{ padding: '6px 16px' }}
-                ></TimelineContent>
-              </TimelineItem>{' '}
-              <Paper
-                style={{
-                  marginTop: '10px',
-                  padding: '20px 30px',
-                  backgroundImage: `url("/img/assets/contact-titleBg.jpg")`,
-                  backgroundSize: 'cover',
-                }}
-                elevation={3}
-                className={classes.paper}
-              >
-                {' '}
-                <Typography
-                  style={{
-                    fontFamily: "'Rajdhani', sans-serif",
-                    fontWeight: '800',
-                    color: 'greenyellow',
-                    textAlign: 'center',
-                  }}
-                  className={classes.content}
-                >
-                  <span style={{ margin: '0' }}>
-                  {tour?.qualifiedTeam
+                <TimelineContent style={{ padding: '6px 16px' }}>
+                  <Paper
+                    style={{
+                      backgroundImage: `url("/img/assets/contact-titleBg.jpg")`,
+                      backgroundSize: 'cover',
+                    }}
+                    elevation={3}
+                    className={classes.paper}
+                  >
+                    {' '}
+                    <Typography
+                      style={{
+                        fontFamily: "'Rajdhani', sans-serif",
+                        fontWeight: '800',
+                      }}
+                      className={classes.content}
+                    >
+                      <span>
+                        {' '}
+                        DIVIDED INTO {tour?.dividedInto} GROUP <br />
+                        {tour?.teamPerGroup} TEAM PER GROUP <br />
+                        {tour?.matchPerGroup} MATCH EACH GROUP{' '}
+                        {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
+                          'IN ROUND ROBIN FORMAT'}
+                      </span>
+                      <br />
+                      <span style={{ color: 'greenyellow' }}>
+                        TOP {tour?.qualify} TEAM WILL QUALIFY FOR NEXT ROUND
+                      </span>
+                    </Typography>
+                  </Paper>
+                </TimelineContent>
+              </TimelineItem>
+            )
+          }
+          if (tour?.isFinal) {
+            return (
+              <span key={i}>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <p
+                      style={{
+                        fontFamily: "'Rajdhani', sans-serif",
+                        fontWeight: '800',
+                        fontSize: '15px',
+                        marginBottom: '0',
+                        marginTop: '5px',
+                        textAlign: 'center',
+                        color: 'grey',
+                      }}
+                    >
+                      {tour?.qualifiedTeam
                         ? parseInt(tour?.qualifiedTeam)
                         : 0 + tour?.invitedTeam
                         ? parseInt(tour?.invitedTeam)
                         : 0}{' '}
-                    TEAM WILL PLAY {tour?.matchPerGroup} MATCH TO WIN THE TITLE
-                    {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
-                      'IN ROUND ROBIN FORMAT'}
-                  </span>
-                </Typography>
-              </Paper>
-            </span>
-          )
-        }
-      })}
-    </Timeline>
+                      FINALIST TEAM
+                    </p>
+                    <TimelineDot
+                      className={Style.timelineDotBg}
+                      style={{
+                        backgroundImage: `url("/img/assets/images.png")`,
+                        backgroundSize: 'cover',
+                        padding: '15px',
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        fontFamily: "'Rajdhani', sans-serif",
+                        width: '95px',
+                        height: '95px',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: 0,
+                      }}
+                    >
+                      <span style={{ zIndex: '2' }}>{tour?.roundName}</span>
+                    </TimelineDot>
+
+                    <TimelineConnector className={classes.secondaryTail} />
+                  </TimelineSeparator>
+                  <TimelineContent
+                    style={{ padding: '6px 16px' }}
+                  ></TimelineContent>
+                </TimelineItem>{' '}
+                <Paper
+                  style={{
+                    marginTop: '10px',
+                    padding: '20px 30px',
+                    backgroundImage: `url("/img/assets/contact-titleBg.jpg")`,
+                    backgroundSize: 'cover',
+                  }}
+                  elevation={3}
+                  className={classes.paper}
+                >
+                  {' '}
+                  <Typography
+                    style={{
+                      fontFamily: "'Rajdhani', sans-serif",
+                      fontWeight: '800',
+                      color: 'greenyellow',
+                      textAlign: 'center',
+                    }}
+                    className={classes.content}
+                  >
+                    <span style={{ margin: '0' }}>
+                      {tour?.qualifiedTeam
+                        ? parseInt(tour?.qualifiedTeam)
+                        : 0 + tour?.invitedTeam
+                        ? parseInt(tour?.invitedTeam)
+                        : 0}{' '}
+                      TEAM WILL PLAY {tour?.matchPerGroup} MATCH TO WIN THE
+                      TITLE
+                      {tour?.matchMakingStyle === 'ROUND-ROBIN' &&
+                        'IN ROUND ROBIN FORMAT'}
+                    </span>
+                  </Typography>
+                </Paper>
+              </span>
+            )
+          }
+        })}
+      </Timeline>
+    </GridContainer>
   )
 }

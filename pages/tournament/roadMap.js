@@ -276,7 +276,6 @@ const RoadMap = () => {
             <span>Create New RoadMap</span>
           </h4>
         )}
-
         {tournamentId ? (
           <div style={{ display: 'flex' }}>
             {' '}
@@ -308,7 +307,6 @@ const RoadMap = () => {
             Choose Tournament
           </Button>
         )}
-
         {newRoadMap?.length ? (
           <EditableTimeLine
             handleAddNewRound={handleAddNewRound}
@@ -317,11 +315,10 @@ const RoadMap = () => {
         ) : (
           <></>
         )}
-
         <GridContainer
           style={{ margin: 0, display: 'flex', justifyContent: 'center' }}
         ></GridContainer>
-
+        {/**choose tour-table for roadmap  dialog**/}
         <Dialog
           open={chooseTourTableOpen}
           onClose={handleClose}
@@ -360,11 +357,13 @@ const RoadMap = () => {
             </Button>
           </DialogActions>
         </Dialog>
+        {/** choose view RoadMap dialog */}
         <Dialog
           open={viewRoadMap}
           onClose={handleViewRoadMapClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
         >
           <DialogTitle
             style={{
@@ -384,129 +383,24 @@ const RoadMap = () => {
               </span>
             </span>
           </DialogTitle>
-          <DialogContent>
-            <TimeLine roadMapData={roadMapData} />
+
+          <DialogContent dividers={scroll === 'paper'}>
+            <DialogContentText
+              id="scroll-dialog-description"
+              ref={descriptionElementRef}
+              tabIndex={-1}
+            >
+              <TimeLine roadMapData={roadMapData} />
+            </DialogContentText>
           </DialogContent>
           <DialogActions>
+            {' '}
             <Button onClick={() => handleViewRoadMapClose()} color="primary">
               Close
             </Button>
           </DialogActions>
         </Dialog>
-        {/* <Dialog
-          open={addRoadMap}
-          onClose={handleAddRoadMapClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{
-              textAlign: 'center',
-              color: '#00cfff',
-              textTransform: 'uppercase',
-            }}
-            id="alert-dialog-title"
-          >
-            <span style={{ fontSize: '13px' }}>{'Add RoadMap'} </span>
-            <span
-              style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
-            >
-              Team Remaining : {teamRemaining}
-            </span>
-          </DialogTitle>
-          <DialogContent>
-            <CreateRoadMapTable
-              teamRemaining={teamRemaining}
-              setTeamRemaining={setTeamRemaining}
-              handleAddRoadMapClose={handleAddRoadMapClose}
-              newRoadMap={newRoadMap}
-              setNewRoadMap={setNewRoadMap}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={() => handleAddRoadMapClose(newRoadMap, true)}
-              color="primary"
-            >
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog> */}
-        <Dialog
-          open={confirmOpen}
-          onClose={handleConfirmClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{ color: '#00cfff', textTransform: 'uppercase' }}
-            id="alert-dialog-title"
-          >
-            {'Do you want to saved unfinished Tournament?'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              style={{ color: 'black', textTransform: 'uppercase' }}
-              id="alert-dialog-description"
-            >
-              There is no final stage in this roadMap . you can not add this
-              roadMap to your tournament . Are you want to leave this roadMap ?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <CustomButton onClick={() => handleNo()} size="sm" color="danger">
-              cancel
-            </CustomButton>
-            <CustomButton
-              onClick={() => handleYes()}
-              color="info"
-              size="sm"
-              autoFocus
-            >
-              Yes
-            </CustomButton>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          open={confirmDeleteOpen}
-          onClose={handleConfirmDeleteClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{ color: '#00cfff', textTransform: 'uppercase' }}
-            id="alert-dialog-title"
-          >
-            {'Do you want to Delete this roadMap?'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              style={{ color: 'black', textTransform: 'uppercase' }}
-              id="alert-dialog-description"
-            >
-              if you delete this roadmap . the tournaments details related to
-              this roadmap will be deleted . Are you sure to delete this roadmap
-              ?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <CustomButton
-              onClick={() => handleConfirmDeleteNo()}
-              size="sm"
-              color="danger"
-            >
-              cancel
-            </CustomButton>
-            <CustomButton
-              onClick={() => handleConfirmDeleteYes()}
-              color="info"
-              size="sm"
-              autoFocus
-            >
-              Yes
-            </CustomButton>
-          </DialogActions>
-        </Dialog>
+        {/** add roadMap dialog */}
         <Dialog
           open={addRoadMap}
           onClose={handleAddRoadMapClose}
@@ -555,6 +449,83 @@ const RoadMap = () => {
             >
               Close
             </Button>
+          </DialogActions>
+        </Dialog>{' '}
+        {/**saved or delete confirmation dialog */}
+        <Dialog
+          open={confirmOpen}
+          onClose={handleConfirmClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            style={{ color: '#00cfff', textTransform: 'uppercase' }}
+            id="alert-dialog-title"
+          >
+            {'Do you want to saved unfinished Tournament?'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              style={{ color: 'black', textTransform: 'uppercase' }}
+              id="alert-dialog-description"
+            >
+              There is no final stage in this roadMap . you can not add this
+              roadMap to your tournament . Are you want to leave this roadMap ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <CustomButton onClick={() => handleNo()} size="sm" color="danger">
+              cancel
+            </CustomButton>
+            <CustomButton
+              onClick={() => handleYes()}
+              color="info"
+              size="sm"
+              autoFocus
+            >
+              Yes
+            </CustomButton>
+          </DialogActions>
+        </Dialog>
+        {/** delete form saved roadmap confirmation dialog */}
+        <Dialog
+          open={confirmDeleteOpen}
+          onClose={handleConfirmDeleteClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle
+            style={{ color: '#00cfff', textTransform: 'uppercase' }}
+            id="alert-dialog-title"
+          >
+            {'Do you want to Delete this roadMap?'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              style={{ color: 'black', textTransform: 'uppercase' }}
+              id="alert-dialog-description"
+            >
+              if you delete this roadmap . the tournaments details related to
+              this roadmap will be deleted . Are you sure to delete this roadmap
+              ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <CustomButton
+              onClick={() => handleConfirmDeleteNo()}
+              size="sm"
+              color="danger"
+            >
+              cancel
+            </CustomButton>
+            <CustomButton
+              onClick={() => handleConfirmDeleteYes()}
+              color="info"
+              size="sm"
+              autoFocus
+            >
+              Yes
+            </CustomButton>
           </DialogActions>
         </Dialog>
       </div>
