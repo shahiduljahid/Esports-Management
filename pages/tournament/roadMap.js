@@ -26,6 +26,8 @@ import EditableTimeLine from '/components/TimeLine/EditableTimeLine'
 import notificationPopUp from '../../Functions/notificationPopUp'
 import { useSnackbar } from 'notistack'
 import DeleteIcon from '@material-ui/icons/Delete'
+import ConfirmationDialog from '/components/CustomDialog/ConfirmationDialog'
+import AutoGenerateInfoForm from '/components/RoadMap/AutoGenerateInfoForm'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -151,10 +153,13 @@ const RoadMap = () => {
   //handle Choose tour table
 
   const [chooseTourTableOpen, setChooseTourTableOpen] = React.useState(false)
-  const handleClickOpen = () => {
+  const [generateType, setGenerateType] = useState()
+  const handleClickOpen = (type) => {
+    setGenerateType(type)
     setChooseTourTableOpen(true)
   }
   const handleClose = () => {
+    setViewTeamAddTable(false)
     setChooseTourTableOpen(false)
   }
   //handle view RoadMap Table
@@ -298,14 +303,26 @@ const RoadMap = () => {
             </Button>
           </div>
         ) : (
-          <Button
-            onClick={() => handleClickOpen()}
-            variant="outlined"
-            color="primary"
-            component="span"
-          >
-            Choose Tournament
-          </Button>
+          <div style={{ display: 'flex' }}>
+            {' '}
+            <Button
+              onClick={() => handleClickOpen('create')}
+              variant="outlined"
+              color="primary"
+              component="span"
+            >
+              create roadmap
+            </Button>
+            <Button
+              style={{ marginLeft: '10px' }}
+              onClick={() => handleClickOpen('auto')}
+              variant="outlined"
+              color="secondary"
+              component="span"
+            >
+              auto generate
+            </Button>
+          </div>
         )}
         {newRoadMap?.length ? (
           <EditableTimeLine
@@ -333,16 +350,22 @@ const RoadMap = () => {
             }}
             id="alert-dialog-title"
           >
-            {'Choose Tournament To Add'}
+            {viewTeamAddTable?'create a road-Map':'Choose Tournament To Add'}
           </DialogTitle>
           <DialogContent>
             {viewTeamAddTable ? (
-              <AddTeamNumber
-                handleClose={handleClose}
-                setViewTeamAddTable={setViewTeamAddTable}
-                handleAddRoadMapOpen={handleAddRoadMapOpen}
-                setTeamRemaining={setTeamRemaining}
-              />
+              <>
+                {generateType === 'create' ? (
+                  <AddTeamNumber
+                    handleClose={handleClose}
+                    setViewTeamAddTable={setViewTeamAddTable}
+                    handleAddRoadMapOpen={handleAddRoadMapOpen}
+                    setTeamRemaining={setTeamRemaining}
+                  />
+                ) : (
+                  <AutoGenerateInfoForm />
+                )}
+              </>
             ) : (
               <AllTournamentTable
                 tournaments={itemWithOutRoadMap}
@@ -452,82 +475,26 @@ const RoadMap = () => {
           </DialogActions>
         </Dialog>{' '}
         {/**saved or delete confirmation dialog */}
-        <Dialog
-          open={confirmOpen}
-          onClose={handleConfirmClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{ color: '#00cfff', textTransform: 'uppercase' }}
-            id="alert-dialog-title"
-          >
-            {'Do you want to saved unfinished Tournament?'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              style={{ color: 'black', textTransform: 'uppercase' }}
-              id="alert-dialog-description"
-            >
-              There is no final stage in this roadMap . you can not add this
-              roadMap to your tournament . Are you want to leave this roadMap ?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <CustomButton onClick={() => handleNo()} size="sm" color="danger">
-              cancel
-            </CustomButton>
-            <CustomButton
-              onClick={() => handleYes()}
-              color="info"
-              size="sm"
-              autoFocus
-            >
-              Yes
-            </CustomButton>
-          </DialogActions>
-        </Dialog>
+        <ConfirmationDialog
+          handleYes={handleYes}
+          handleNo={handleNo}
+          confirmOpen={confirmOpen}
+          handleConfirmClose={handleConfirmClose}
+          title={'Do you want to saved unfinished Tournament?'}
+          message={`There is no final stage in this roadMap . you can not add this
+          roadMap to your tournament . Are you want to leave this roadMap ?`}
+        />
         {/** delete form saved roadmap confirmation dialog */}
-        <Dialog
-          open={confirmDeleteOpen}
-          onClose={handleConfirmDeleteClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle
-            style={{ color: '#00cfff', textTransform: 'uppercase' }}
-            id="alert-dialog-title"
-          >
-            {'Do you want to Delete this roadMap?'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              style={{ color: 'black', textTransform: 'uppercase' }}
-              id="alert-dialog-description"
-            >
-              if you delete this roadmap . the tournaments details related to
-              this roadmap will be deleted . Are you sure to delete this roadmap
-              ?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <CustomButton
-              onClick={() => handleConfirmDeleteNo()}
-              size="sm"
-              color="danger"
-            >
-              cancel
-            </CustomButton>
-            <CustomButton
-              onClick={() => handleConfirmDeleteYes()}
-              color="info"
-              size="sm"
-              autoFocus
-            >
-              Yes
-            </CustomButton>
-          </DialogActions>
-        </Dialog>
+        <ConfirmationDialog
+          handleYes={handleConfirmDeleteYes}
+          handleNo={handleConfirmDeleteNo}
+          confirmOpen={confirmDeleteOpen}
+          handleConfirmClose={handleConfirmDeleteClose}
+          title={'Do you want to Delete this roadMap?'}
+          message={`if you delete this roadmap . the tournaments details related to
+          this roadmap will be deleted . Are you sure to delete this roadmap
+          ?`}
+        />
       </div>
     </>
   )

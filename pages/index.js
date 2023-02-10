@@ -18,12 +18,14 @@ import FeaturedSection from '../components/Home/FeaturedSection'
 import FaqSection from '../components/Home/FaqSection'
 import Link from 'next/link'
 
+
+
 const dashboardRoutes = []
 
 const useStyles = makeStyles(styles)
 
 export default function LandingPage(props) {
-  const [loading, setLoading] = useState(true)
+
   const classes = useStyles()
   const { ...rest } = props
   const sliderImages = [
@@ -45,34 +47,11 @@ export default function LandingPage(props) {
     return () => clearInterval(id)
   }, [sliderIndex])
 
-  const loader = () => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000)
-  }
-  loader()
+  
 
   return (
     <Layout>
-    <div>
-      {loading ? (
-        <div
-          style={{
-            height: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#190e1f',
-          }}
-        >
-          <div>
-            {' '}
-            <Image src={'/img/assets/preloader.gif'} height={300} width={200} />
-          </div>
-        </div>
-      ) : (
-       
-         <> <Parallax
+     <> <Parallax
          className={homeStyle.container}
          filter
          responsive
@@ -146,9 +125,6 @@ export default function LandingPage(props) {
            </div>
          </div>
        </div></>
-        
-      )}
-    </div>
     </Layout>
   )
 }

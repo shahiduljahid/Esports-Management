@@ -163,14 +163,16 @@ const CreateRoadMapTable = ({
         setInvitedTeam(parseInt(e.target.value))
         setTeamRemaining(newNumber)
         if (newNumber > 20) {
-          setIsFinal(false)
-          setInvitedTeam()
-          setTeamRemaining(qualifiedTeam)
-          notificationPopUp(
-            `you can not make final stage with more than 20 team in a lobby`,
-            'warning',
-            enqueueSnackbar,
-          )
+          if (isFinal) {
+            notificationPopUp(
+              `you can not make final stage with more than 20 team in a lobby`,
+              'warning',
+              enqueueSnackbar,
+            )
+            setIsFinal(false)
+            setInvitedTeam()
+            setTeamRemaining(qualifiedTeam)
+          }
         }
       } else {
         setInvitedTeam()

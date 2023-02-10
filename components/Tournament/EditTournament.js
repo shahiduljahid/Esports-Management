@@ -233,7 +233,7 @@ const EditTournament = ({ setTableData, tournament, handleClose ,setSelected }) 
             )
           })}
 
-          <GridItem xs={12} sm={6}>
+          {/* <GridItem xs={12} sm={6}>
             <InputLabel>Select Tournament Format</InputLabel>
 
             <Autocomplete
@@ -260,7 +260,7 @@ const EditTournament = ({ setTableData, tournament, handleClose ,setSelected }) 
                 </>
               )}
             />
-          </GridItem>
+          </GridItem> */}
           <GridItem
             style={{ display: 'flex', paddingTop: '10px' }}
             xs={12}

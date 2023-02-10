@@ -270,7 +270,7 @@ const CreateTournament = ({ users, tournaments }) => {
             )
           })}
 
-          <GridItem xs={12} sm={6} md={4}>
+          {/* <GridItem xs={12} sm={6} md={4}>
             <InputLabel>Select Tournament Format</InputLabel>
 
             <Autocomplete
@@ -297,7 +297,7 @@ const CreateTournament = ({ users, tournaments }) => {
                 </>
               )}
             />
-          </GridItem>
+          </GridItem> */}
           <GridItem
             style={{ display: 'flex', paddingTop: '10px'}}
             xs={12}
