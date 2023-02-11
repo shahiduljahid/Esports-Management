@@ -363,7 +363,8 @@ const RoadMap = () => {
                     setTeamRemaining={setTeamRemaining}
                   />
                 ) : (
-                  <AutoGenerateInfoForm />
+                  <AutoGenerateInfoForm saveTourId={saveTourId} setTournamentId={setTournamentId} setNewRoadMap={setNewRoadMap}
+                  handleClose={handleClose}/>
                 )}
               </>
             ) : (

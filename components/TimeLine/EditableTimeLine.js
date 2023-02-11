@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function EditableTimeLine({ roadMapData, handleAddNewRound }) {
-  console.log(roadMapData)
   const classes = useStyles()
   let viewAddBtn = true
   const handleShowAddBtn = () => {

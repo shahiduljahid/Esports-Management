@@ -300,7 +300,6 @@ const CreateRoadMapTable = ({
       } else {
         setTeamRemaining(data.qualify)
       }
-      handleAddRoadMapClose()
       setNewRoadMap(updateRoadMap)
       handleAddRoadMapClose(updateRoadMap)
       reset()
