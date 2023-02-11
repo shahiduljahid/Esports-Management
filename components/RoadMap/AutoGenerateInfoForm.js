@@ -140,7 +140,7 @@ const AutoGenerateInfoForm = ({
       } else {
         newRoadMap = []
         notificationPopUp(
-          `failed to generate . try to make it manually`,
+          `failed to generate . add more team or  make it manually`,
           'warning',
           enqueueSnackbar,
         )
