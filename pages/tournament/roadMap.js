@@ -1,264 +1,295 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
-import GridContainer from '/components/Grid/GridContainer.js'
-import GridItem from '/components/Grid/GridItem.js'
-import styles from '/styles/jss/nextjs-material-kit/dashboard'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
+import GridContainer from "/components/Grid/GridContainer.js";
+import GridItem from "/components/Grid/GridItem.js";
+import styles from "/styles/jss/nextjs-material-kit/dashboard";
 
 //dialog
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 //core component
-import { useAuth } from '../../lib/auth'
-import DashboardLayout from './../../Layout/DashboardLayout'
-import AllRoadMapTable from '/components/RoadMap/AllRoadMapTable'
-import CustomButton from '/components/CustomButtons/Button.js'
-import AllTournamentTable from '/components/Tournament/AllTournamentTable'
-import TimeLine from '/components/TimeLine/TimeLine'
-import CreateRoadMapTable from '/components/RoadMap/CreateRoadMapTable'
-import AddTeamNumber from '/components/RoadMap/AddTeamNumber'
-import EditableTimeLine from '/components/TimeLine/EditableTimeLine'
-import notificationPopUp from '../../Functions/notificationPopUp'
-import { useSnackbar } from 'notistack'
-import DeleteIcon from '@material-ui/icons/Delete'
-import ConfirmationDialog from '/components/CustomDialog/ConfirmationDialog'
-import AutoGenerateInfoForm from '/components/RoadMap/AutoGenerateInfoForm'
+import { useAuth } from "../../lib/auth";
+import DashboardLayout from "./../../Layout/DashboardLayout";
+import AllRoadMapTable from "/components/RoadMap/AllRoadMapTable";
+import CustomButton from "/components/CustomButtons/Button.js";
+import AllTournamentTable from "/components/Tournament/AllTournamentTable";
+import TimeLine from "/components/TimeLine/TimeLine";
+import CreateRoadMapTable from "/components/RoadMap/CreateRoadMapTable";
+import AddTeamNumber from "/components/RoadMap/AddTeamNumber";
+import EditableTimeLine from "/components/TimeLine/EditableTimeLine";
+import notificationPopUp from "../../Functions/notificationPopUp";
+import { useSnackbar } from "notistack";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ConfirmationDialog from "/components/CustomDialog/ConfirmationDialog";
+import AutoGenerateInfoForm from "/components/RoadMap/AutoGenerateInfoForm";
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   container: {
     maxHeight: 440,
   },
 
   ...styles,
-}))
+}));
 
 const handleUserTourData = (userId, allTour) => {
-  return allTour.filter((item) => item.creator === userId)
-}
+  return allTour.filter((item) => item.creator === userId);
+};
 const handleRoadMapFilter = (array) => {
-  return array.filter((ele) => ele.roadMap.length > 0)
-}
+  return array.filter((ele) => ele.roadMap.length > 0);
+};
 const handleWithOutRoadMapFilter = (array) => {
-  return array.filter((ele) => ele.roadMap.length === 0)
-}
+  return array.filter((ele) => ele.roadMap.length === 0);
+};
 const RoadMap = () => {
-  const classes = useStyles()
-  const { user } = useAuth()
-  const [reload, setReload] = useState(false)
-  const [tableData, setTableData] = useState([])
-  const [roadMapData, setRoadMapData] = useState()
-  const [selectedRoadmap, setSelectedRoadMap] = useState()
-  const [tournamentId, setTournamentId] = useState()
-  const [newRoadMap, setNewRoadMap] = useState([])
-  const [teamRemaining, setTeamRemaining] = useState()
-  const [saveTourId, setTourId] = useState()
-  const [qualifiedTeam, setQualifiedTeam] = useState()
-  const [viewTeamAddTable, setViewTeamAddTable] = useState(false)
-  const { enqueueSnackbar } = useSnackbar()
-  const itemWithRoadMap = handleRoadMapFilter(tableData)
-  const itemWithOutRoadMap = handleWithOutRoadMapFilter(tableData)
+  const classes = useStyles();
+  const { user } = useAuth();
+  const [reload, setReload] = useState(false);
+  const [tableData, setTableData] = useState([]);
+  const [roadMapData, setRoadMapData] = useState();
+  const [selectedRoadmap, setSelectedRoadMap] = useState();
+  const [tournamentId, setTournamentId] = useState();
+  const [newRoadMap, setNewRoadMap] = useState([]);
+  const [teamRemaining, setTeamRemaining] = useState();
+  const [saveTourId, setTourId] = useState();
+  const [qualifiedTeam, setQualifiedTeam] = useState();
+  const [viewTeamAddTable, setViewTeamAddTable] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const itemWithRoadMap = handleRoadMapFilter(tableData);
+  const itemWithOutRoadMap = handleWithOutRoadMapFilter(tableData);
+
+  const handleEditExitedRoadMap = () => {
+    setIsEditing(true);
+    setTournamentId(selectedRoadmap._id);
+    setNewRoadMap(roadMapData);
+    handleViewRoadMapClose();
+  };
 
   const handleAddNewRound = () => {
-    handleAddRoadMapOpen()
-  }
+    handleAddRoadMapOpen();
+  };
   const handleTournamentStart = (item) => {
     if (item) {
-      setTourId(item?._id)
+      setTourId(item?._id);
     }
-    setViewTeamAddTable(true)
-  }
+    setViewTeamAddTable(true);
+  };
 
   const handleRoadMapView = (item) => {
     if (item?.roadMap?.length) {
-      setSelectedRoadMap(item)
-      setRoadMapData(item.roadMap)
-      handleViewRoadMapOpen(item)
+      setSelectedRoadMap(item);
+      setRoadMapData(item.roadMap);
+      handleViewRoadMapOpen(item);
     }
-  }
+  };
+//   const text = `DT ESPORTS 
+// USG ESPORTS 
+// SHIELD ESPORTS 
+// FV ESPORTS
+// 7SINS ESPORTS 
+// GANJAM ESPORTS
+// TTF ESPORTS
+// 3GX No Fear
+// EPIC ESPORTS 
+// 4ARC
+// TSG ESPORTS 
+// 1972 LEGENDS
+// pSYDRIAN ESPORTS`
+
+  
+//  const textArray = text.split(/\r?\n/);
+//   console.log(textArray)
 
   const handleSaveRoadMap = async () => {
-    let isComplete = false
+    let isComplete = false;
     for (let index = 0; index < newRoadMap.length; index++) {
-      const element = newRoadMap[index]
+      const element = newRoadMap[index];
       if (element.isFinal) {
-        isComplete = true
+        isComplete = true;
       }
     }
     if (isComplete) {
-      setReload(true)
+      setReload(true);
       const tournamentFind = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${tournamentId}`,
-      )
-      const tournament = tournamentFind?.data
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${tournamentId}`
+      );
+      const tournament = tournamentFind?.data;
 
-      tournament.roadMap = newRoadMap
+      tournament.roadMap = newRoadMap;
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentDetails/${tournamentId}`,
-        tournament,
-      )
+        tournament
+      );
       if (res.data) {
-        setTableData(handleUserTourData(user?._id, res.data))
+        setTableData(handleUserTourData(user?._id, res.data));
         notificationPopUp(
-          'Road Map added successfully',
-          'success',
-          enqueueSnackbar,
-        )
-        setNewRoadMap([])
-        setTeamRemaining()
-        setTournamentId()
-        setTourId()
+          "Road Map added successfully",
+          "success",
+          enqueueSnackbar
+        );
+        setNewRoadMap([]);
+        setTeamRemaining();
+        setTournamentId();
+        setTourId();
       }
-      setReload(false)
+      setReload(false);
     } else {
-      handleConfirmOpen()
+      handleConfirmOpen();
     }
-  }
+    setIsEditing(false);
+  };
   const handleRemoveEditingRoadMap = () => {
-    handleConfirmOpen()
-  }
+    handleConfirmOpen();
+  };
+  const handleBackFormEditMood = () => {
+    setIsEditing(false);
+    setTournamentId();
+    setNewRoadMap();
+  };
   const handleDelete = async () => {
-    handleViewRoadMapClose()
-    setReload(true)
+    handleViewRoadMapClose();
+    setReload(true);
     const tournamentFind = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${selectedRoadmap._id}`,
-    )
-    const tournament = tournamentFind?.data
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentById/${selectedRoadmap._id}`
+    );
+    const tournament = tournamentFind?.data;
 
-    tournament.roadMap = []
+    tournament.roadMap = [];
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/TournamentDetails/${selectedRoadmap._id}`,
-      tournament,
-    )
+      tournament
+    );
     if (res.data) {
-      setTableData(handleUserTourData(user?._id, res.data))
+      setTableData(handleUserTourData(user?._id, res.data));
       notificationPopUp(
-        'Road Map Deleted successfully',
-        'success',
-        enqueueSnackbar,
-      )
+        "Road Map Deleted successfully",
+        "success",
+        enqueueSnackbar
+      );
     }
-    handleViewRoadMapClose()
-    setReload(false)
-  }
+    handleViewRoadMapClose();
+    setReload(false);
+  };
 
   //dialogs function
 
   //handle Choose tour table
 
-  const [chooseTourTableOpen, setChooseTourTableOpen] = React.useState(false)
-  const [generateType, setGenerateType] = useState()
+  const [chooseTourTableOpen, setChooseTourTableOpen] = React.useState(false);
+  const [generateType, setGenerateType] = useState();
   const handleClickOpen = (type) => {
-    setGenerateType(type)
-    setChooseTourTableOpen(true)
-  }
+    setGenerateType(type);
+    setChooseTourTableOpen(true);
+  };
   const handleClose = () => {
-    setViewTeamAddTable(false)
-    setChooseTourTableOpen(false)
-  }
+    setViewTeamAddTable(false);
+    setChooseTourTableOpen(false);
+  };
   //handle view RoadMap Table
-  const [viewRoadMap, setViewRoadMap] = React.useState(false)
+  const [viewRoadMap, setViewRoadMap] = React.useState(false);
   const handleViewRoadMapOpen = (item) => {
-    setViewRoadMap(true)
-  }
+    setViewRoadMap(true);
+  };
   const handleViewRoadMapClose = () => {
-    setViewRoadMap(false)
-    setSelectedRoadMap()
-    setRoadMapData()
-  }
+    setViewRoadMap(false);
+    setSelectedRoadMap();
+    setRoadMapData();
+  };
   //handle Add RoadMap Table
-  const [addRoadMap, setAddRoadMap] = React.useState(false)
+  const [addRoadMap, setAddRoadMap] = React.useState(false);
   const handleAddRoadMapOpen = () => {
-    setAddRoadMap(true)
-  }
+    setAddRoadMap(true);
+  };
   const handleAddRoadMapClose = (isAdded, notAdded) => {
     if (!isAdded?.length) {
-      setTournamentId()
+      setTournamentId();
     } else {
-      setTournamentId(saveTourId)
+      setTournamentId(saveTourId);
     }
     if (notAdded) {
       if (newRoadMap?.length) {
-        const temp = [...newRoadMap]
-        const lastOne = temp.pop()
+        const temp = [...newRoadMap];
+        const lastOne = temp.pop();
         const teamRem =
-          parseInt(lastOne.dividedInto) * parseInt(lastOne.qualify)
+          parseInt(lastOne.dividedInto) * parseInt(lastOne.qualify);
 
-        setTeamRemaining(teamRem)
+        setTeamRemaining(teamRem);
       }
     }
-    setAddRoadMap(false)
-  }
+    setAddRoadMap(false);
+  };
 
   //confirm dialog
 
-  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleConfirmOpen = () => {
-    setConfirmOpen(true)
-  }
+    setConfirmOpen(true);
+  };
 
   const handleConfirmClose = () => {
-    setConfirmOpen(false)
-  }
+    setConfirmOpen(false);
+  };
   const handleNo = () => {
-    handleConfirmClose()
-  }
+    handleConfirmClose();
+  };
   const handleYes = async () => {
-    setNewRoadMap([])
-    setTeamRemaining()
-    setTournamentId()
-    setTourId()
-    handleConfirmClose()
-  }
+    setNewRoadMap([]);
+    setTeamRemaining();
+    setTournamentId();
+    setTourId();
+    handleConfirmClose();
+  };
 
   //confirm Delete
 
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false)
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const handleConfirmDeleteOpen = () => {
-    setConfirmDeleteOpen(true)
-  }
+    setConfirmDeleteOpen(true);
+  };
 
   const handleConfirmDeleteClose = () => {
-    setConfirmDeleteOpen(false)
-  }
+    setConfirmDeleteOpen(false);
+  };
   const handleConfirmDeleteNo = () => {
-    handleConfirmDeleteClose()
-  }
+    handleConfirmDeleteClose();
+  };
   const handleConfirmDeleteYes = async () => {
-    handleDelete()
-    handleConfirmDeleteClose()
-  }
+    handleDelete();
+    handleConfirmDeleteClose();
+  };
   //dialog helpers
-  const [open, setOpen] = React.useState(false)
-  const [scroll, setScroll] = React.useState('paper')
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
 
-  const descriptionElementRef = React.useRef(null)
+  const descriptionElementRef = React.useRef(null);
   React.useEffect(() => {
     if (open) {
-      const { current: descriptionElement } = descriptionElementRef
+      const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
-        descriptionElement.focus()
+        descriptionElement.focus();
       }
     }
-  }, [open])
+  }, [open]);
 
   useEffect(async () => {
-    setReload(true)
-    const id = user._id
+    setReload(true);
+    const id = user._id;
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/singleUserTournament/${id}`,
-    )
-    setTableData(res.data)
-    setReload(false)
-  }, [user])
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/tournaments/singleUserTournament/${id}`
+    );
+    setTableData(res.data);
+    setReload(false);
+  }, [user]);
   return (
     <>
       <div className={classes.containerFluid}>
@@ -270,11 +301,11 @@ const RoadMap = () => {
         {!tournamentId && (
           <h4
             style={{
-              color: 'black',
-              fontWeight: 'bold',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              color: "black",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
             className={classes.title}
           >
@@ -282,8 +313,8 @@ const RoadMap = () => {
           </h4>
         )}
         {tournamentId ? (
-          <div style={{ display: 'flex' }}>
-            {' '}
+          <div style={{ display: "flex" }}>
+            {" "}
             <Button
               onClick={() => handleSaveRoadMap()}
               variant="outlined"
@@ -292,21 +323,33 @@ const RoadMap = () => {
             >
               Save RoadMap
             </Button>
-            <Button
-              style={{ marginLeft: '10px' }}
-              onClick={() => handleRemoveEditingRoadMap()}
-              variant="outlined"
-              color="secondary"
-              component="span"
-            >
-              Delete RoadMap
-            </Button>
+            {isEditing ? (
+              <Button
+                style={{ marginLeft: "10px" }}
+                onClick={() => handleBackFormEditMood()}
+                variant="outlined"
+                color="secondary"
+                component="span"
+              >
+                BACK
+              </Button>
+            ) : (
+              <Button
+                style={{ marginLeft: "10px" }}
+                onClick={() => handleRemoveEditingRoadMap()}
+                variant="outlined"
+                color="secondary"
+                component="span"
+              >
+                Delete RoadMap
+              </Button>
+            )}
           </div>
         ) : (
-          <div style={{ display: 'flex' }}>
-            {' '}
+          <div style={{ display: "flex" }}>
+            {" "}
             <Button
-              onClick={() => handleClickOpen('create')}
+              onClick={() => handleClickOpen("create")}
               variant="outlined"
               color="primary"
               component="span"
@@ -314,8 +357,8 @@ const RoadMap = () => {
               create roadmap
             </Button>
             <Button
-              style={{ marginLeft: '10px' }}
-              onClick={() => handleClickOpen('auto')}
+              style={{ marginLeft: "10px" }}
+              onClick={() => handleClickOpen("auto")}
               variant="outlined"
               color="secondary"
               component="span"
@@ -327,13 +370,14 @@ const RoadMap = () => {
         {newRoadMap?.length ? (
           <EditableTimeLine
             handleAddNewRound={handleAddNewRound}
-            roadMapData={newRoadMap}
+            newRoadMap={newRoadMap}
+            setNewRoadMap={setNewRoadMap}
           />
         ) : (
           <></>
         )}
         <GridContainer
-          style={{ margin: 0, display: 'flex', justifyContent: 'center' }}
+          style={{ margin: 0, display: "flex", justifyContent: "center" }}
         ></GridContainer>
         {/**choose tour-table for roadmap  dialog**/}
         <Dialog
@@ -344,18 +388,20 @@ const RoadMap = () => {
         >
           <DialogTitle
             style={{
-              textAlign: 'center',
-              color: '#00cfff',
-              textTransform: 'uppercase',
+              textAlign: "center",
+              color: "#00cfff",
+              textTransform: "uppercase",
             }}
             id="alert-dialog-title"
           >
-            {viewTeamAddTable?'create a road-Map':'Choose Tournament To Add'}
+            {viewTeamAddTable
+              ? "create a road-Map"
+              : "Choose Tournament To Add"}
           </DialogTitle>
           <DialogContent>
             {viewTeamAddTable ? (
               <>
-                {generateType === 'create' ? (
+                {generateType === "create" ? (
                   <AddTeamNumber
                     handleClose={handleClose}
                     setViewTeamAddTable={setViewTeamAddTable}
@@ -363,8 +409,12 @@ const RoadMap = () => {
                     setTeamRemaining={setTeamRemaining}
                   />
                 ) : (
-                  <AutoGenerateInfoForm saveTourId={saveTourId} setTournamentId={setTournamentId} setNewRoadMap={setNewRoadMap}
-                  handleClose={handleClose}/>
+                  <AutoGenerateInfoForm
+                    saveTourId={saveTourId}
+                    setTournamentId={setTournamentId}
+                    setNewRoadMap={setNewRoadMap}
+                    handleClose={handleClose}
+                  />
                 )}
               </>
             ) : (
@@ -391,35 +441,43 @@ const RoadMap = () => {
         >
           <DialogTitle
             style={{
-              textAlign: 'center',
-              color: '#00cfff',
-              textTransform: 'uppercase',
+              textAlign: "center",
+              color: "#00cfff",
+              textTransform: "uppercase",
             }}
             id="alert-dialog-title"
           >
-            <span style={{ display: 'flex', justifyContent: 'center' }}>
-              <span style={{ fontSize: '15px' }}>{'Tournament RoadMap'}</span>
+            <span style={{ display: "flex", justifyContent: "center" }}>
+              <span style={{ fontSize: "15px" }}>{"Tournament RoadMap"}</span>
               <span
                 onClick={() => handleConfirmDeleteOpen()}
-                style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
+                style={{
+                  paddingLeft: "10%",
+                  color: "grey",
+                  fontSize: "15px",
+                  cursor: "pointer",
+                }}
               >
                 <DeleteIcon />
               </span>
             </span>
           </DialogTitle>
 
-          <DialogContent dividers={scroll === 'paper'}>
-            <DialogContentText
+          <DialogContent dividers={scroll === "paper"}>
+            <div
               id="scroll-dialog-description"
               ref={descriptionElementRef}
               tabIndex={-1}
             >
               <TimeLine roadMapData={roadMapData} />
-            </DialogContentText>
+            </div>
           </DialogContent>
           <DialogActions>
-            {' '}
-            <Button onClick={() => handleViewRoadMapClose()} color="primary">
+            {" "}
+            <Button onClick={() => handleEditExitedRoadMap()} color="primary">
+              EDIT
+            </Button>
+            <Button onClick={() => handleViewRoadMapClose()} color="secondary">
               Close
             </Button>
           </DialogActions>
@@ -432,25 +490,25 @@ const RoadMap = () => {
           aria-labelledby="scroll-dialog-title"
           aria-describedby="scroll-dialog-description"
         >
-          <DialogTitle style={{ textAlign: 'center' }} id="scroll-dialog-title">
-            {' '}
+          <DialogTitle style={{ textAlign: "center" }} id="scroll-dialog-title">
+            {" "}
             <span
               style={{
-                color: '#00cfff',
-                textTransform: 'uppercase',
-                fontSize: '13px',
+                color: "#00cfff",
+                textTransform: "uppercase",
+                fontSize: "13px",
               }}
             >
-              {'Add RoadMap'}{' '}
+              {"Add RoadMap"}{" "}
             </span>
             <span
-              style={{ paddingLeft: '10%', color: 'grey', fontSize: '13px' }}
+              style={{ paddingLeft: "10%", color: "grey", fontSize: "13px" }}
             >
               Team Remaining : {teamRemaining}
             </span>
           </DialogTitle>
 
-          <DialogContent dividers={scroll === 'paper'}>
+          <DialogContent dividers={scroll === "paper"}>
             <DialogContentText
               id="scroll-dialog-description"
               ref={descriptionElementRef}
@@ -466,7 +524,7 @@ const RoadMap = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            {' '}
+            {" "}
             <Button
               onClick={() => handleAddRoadMapClose(newRoadMap, true)}
               color="primary"
@@ -474,14 +532,14 @@ const RoadMap = () => {
               Close
             </Button>
           </DialogActions>
-        </Dialog>{' '}
+        </Dialog>{" "}
         {/**saved or delete confirmation dialog */}
         <ConfirmationDialog
           handleYes={handleYes}
           handleNo={handleNo}
           confirmOpen={confirmOpen}
           handleConfirmClose={handleConfirmClose}
-          title={'Do you want to saved unfinished Tournament?'}
+          title={"Do you want to saved unfinished Tournament?"}
           message={`There is no final stage in this roadMap . you can not add this
           roadMap to your tournament . Are you want to leave this roadMap ?`}
         />
@@ -491,14 +549,14 @@ const RoadMap = () => {
           handleNo={handleConfirmDeleteNo}
           confirmOpen={confirmDeleteOpen}
           handleConfirmClose={handleConfirmDeleteClose}
-          title={'Do you want to Delete this roadMap?'}
+          title={"Do you want to Delete this roadMap?"}
           message={`if you delete this roadmap . the tournaments details related to
           this roadmap will be deleted . Are you sure to delete this roadmap
           ?`}
         />
       </div>
     </>
-  )
-}
-RoadMap.layout = DashboardLayout
-export default RoadMap
+  );
+};
+RoadMap.layout = DashboardLayout;
+export default RoadMap;

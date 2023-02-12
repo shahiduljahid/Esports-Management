@@ -24,7 +24,7 @@ export default function ContactSection() {
       style={{ color: 'white', textAlign: 'center' }}
       className={classes.section}
     >
-      <GridContainer justify="center">
+      <GridContainer justifyContent="center">
         <GridItem>
           {' '}
           <h2 className={homeStyle.workTitle}>

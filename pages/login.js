@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties } from 'react'
+import React, { useState, CSSProperties, useEffect } from 'react'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -51,9 +51,7 @@ export default function LoginPage(props) {
 
   const router = useRouter()
   const { user } = useAuth()
-  if (user) {
-    router.push('/tournament')
-  }
+
   const [newUser, setNewUser] = useState(false)
   // const [resetPopup, setResetPopup] = useState(false);
   const [open, setOpen] = React.useState(false)
@@ -102,6 +100,9 @@ export default function LoginPage(props) {
       }
     }
   }
+  useEffect(() => {
+    router.push('/tournament')
+  }, [user])
 
   const [cardAnimaton, setCardAnimation] = useState('cardHidden')
   // setTimeout(function () {
@@ -310,10 +311,13 @@ export default function LoginPage(props) {
                       size="lg"
                     >
                       {newUser ? 'Sign Up' : 'log in'}
-                      {loginStatus.status == "pending" && (
-                  
-                        <BeatLoader  style={{ marginLeft: 5 }} margin={2}
-                        size={12} color="white" />
+                      {loginStatus.status == 'pending' && (
+                        <BeatLoader
+                          style={{ marginLeft: 5 }}
+                          margin={2}
+                          size={12}
+                          color="white"
+                        />
                       )}
                     </Button>
                   </CardFooter>

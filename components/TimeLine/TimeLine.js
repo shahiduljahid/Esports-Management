@@ -141,7 +141,7 @@ export default function TimeLine({ roadMapData }) {
               <span key={i}>
                 <TimelineItem>
                   <TimelineSeparator>
-                    <p
+                    <span
                       style={{
                         fontFamily: "'Rajdhani', sans-serif",
                         fontWeight: '800',
@@ -158,7 +158,7 @@ export default function TimeLine({ roadMapData }) {
                         ? parseInt(tour?.invitedTeam)
                         : 0}{' '}
                       FINALIST TEAM
-                    </p>
+                    </span>
                     <TimelineDot
                       className={Style.timelineDotBg}
                       style={{
