@@ -139,7 +139,7 @@ const TournamentTableToolkit = (props) => {
                   style={{ marginRight: '5px' }}
                   variant="outlined"
                   color="secondary"
-                  onClick={() => handleTournaments()}
+                  onClick={() => handleConfirmOpen()}
                 >
                   Delete Tournament
                 </Button>

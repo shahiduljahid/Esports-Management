@@ -10,7 +10,7 @@ const routes = [
     text: "RoadMap",
   },
   {
-    href: "/tournament/team-Management",
+    href: "/tournament/teamManagement",
     icon: "mdi:people-group",
     text: "Team Management",
   },
