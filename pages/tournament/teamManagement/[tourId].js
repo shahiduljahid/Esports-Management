@@ -247,7 +247,7 @@ const TourDynamicRoute = ({ tournament }) => {
               ref={descriptionElementRef}
               tabIndex={-1}
             >
-           sij team
+           sij team good
             </DialogContentText>
           </DialogContent>
           <DialogActions>
